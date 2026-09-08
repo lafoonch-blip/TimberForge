@@ -1,0 +1,42 @@
+{
+  "$comment": "Provenance for the LandForge mirror. See ./README.md. Hashes are maintained by `npm run check:mirror -- --update`; everything else is written by hand, deliberately.",
+  "canonicalOwner": "LandForge",
+  "maxAgeDays": 90,
+  "files": {
+    "landforge-constants.md": {
+      "describes": "CV_PRIOR, FIXED_TOL, FIELD_WEIGHT, T90 and the tolerance model",
+      "capturedAt": "2026-09-07",
+      "capturedFrom": "https://www.landforge.app/beta (authenticated, inline script)",
+      "method": "runtime value inspection; formulas derived from observed input/output pairs and verified on 5 further live calls",
+      "confidence": "confirmed",
+      "sha256": "dbdd754faefc7613f998b6842e4dba21200d33bfb358ffaf6733e72dcf7bac5e"
+    },
+    "landforge-cruise-intake.md": {
+      "describes": "the na-* cruise intake form fields, method and confidence vocabularies",
+      "capturedAt": "2026-09-07",
+      "capturedFrom": "https://www.landforge.app/beta, New Property Analysis",
+      "method": "read-only DOM inspection; no page functions were invoked",
+      "confidence": "confirmed",
+      "caveat": "DOM ids are confirmed; the object keys expected by applyParsedFields() are NOT known",
+      "sha256": "d6180155fdd542e28a25e346c441396ce6d3613b04f03b381911d3ec8aed018f"
+    },
+    "landforge-species.md": {
+      "describes": "SP_LIST closed vocabulary and mapSpecies normalisation behaviour",
+      "capturedAt": "2026-09-07",
+      "capturedFrom": "https://www.landforge.app/beta",
+      "method": "runtime value read; mapSpecies probed with 9 inputs",
+      "confidence": "confirmed",
+      "caveat": "the candidate additions section is a PROPOSAL, not mirrored fact",
+      "sha256": "f38954a9c07b7d346057e95e73c3f584463dd125029028d59c6bda2dc6436bd7"
+    },
+    "parcel.md": {
+      "describes": "the shared parcel record that timberforge.parcel_link keys against",
+      "capturedAt": null,
+      "capturedFrom": null,
+      "method": "not yet captured — PARCEL_HIT was null (no parcel selected in session)",
+      "confidence": "pending",
+      "blocks": "supabase/migrations/0004_landforge_bridge.sql binds its foreign key conditionally and will skip until this is known",
+      "sha256": null
+    }
+  }
+}

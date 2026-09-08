@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TimberForge — Customer Discovery Prototype</title>
+<style>
+  :root{
+    --forest:#0F2D23; --forest2:#163D31; --sage:#607D68; --earth:#A68B6B;
+    --sand:#F6F3EA; --sand2:#EEE9DC; --charcoal:#1F2937; --white:#fff;
+    --muted:#6B7280; --line:#D9DED8; --ok:#2F6B4D; --warn:#A46D20; --danger:#9B3E35;
+    --shadow:0 8px 28px rgba(15,45,35,.10);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;background:#F8F8F5;color:var(--charcoal);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;overflow-x:hidden}
+  button,input,select{font:inherit}
+  button{cursor:pointer}
+  .app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+  .sidebar{background:var(--forest);color:white;padding:22px 16px;position:sticky;top:0;height:100vh;display:flex;flex-direction:column}
+  .brand{display:flex;gap:10px;align-items:center;margin:4px 8px 28px}
+  .brandmark{width:35px;height:42px;position:relative}
+  .brandmark:before,.brandmark:after{content:"";position:absolute;left:16px;width:4px;background:#F6F3EA;border-radius:3px}
+  .brandmark:before{top:2px;height:34px;transform:rotate(0deg)}
+  .brandmark:after{top:32px;height:10px;transform:rotate(-45deg);transform-origin:top}
+  .branch{position:absolute;height:5px;background:#F6F3EA;width:26px;left:4px;transform-origin:center;border-radius:1px}
+  .b1{top:8px;transform:rotate(-33deg)} .b2{top:17px;transform:rotate(-33deg)} .b3{top:26px;transform:rotate(-33deg)}
+  .branch.r{transform:rotate(33deg);left:12px;width:25px}
+  .brandname{font-weight:800;letter-spacing:.8px;font-size:17px}.brandtag{font-size:9px;letter-spacing:2px;color:#D9E4DE;margin-top:2px}
+  .nav{display:flex;flex-direction:column;gap:6px}.nav button{border:0;background:transparent;color:#BFD0C8;text-align:left;padding:11px 12px;border-radius:9px;display:flex;gap:11px;align-items:center}
+  .nav button.active{background:#24483B;color:white}.stepnum{width:24px;height:24px;border:1px solid #567166;border-radius:50%;display:grid;place-items:center;font-size:11px}.nav button.active .stepnum{background:white;color:var(--forest);border-color:white;font-weight:700}
+  .sidefoot{margin-top:auto;padding:14px 8px 4px;color:#BFD0C8;font-size:11px;line-height:1.5}.badge-beta{display:inline-block;border:1px solid #57756A;border-radius:999px;padding:4px 8px;margin-bottom:7px;color:white}
+  main{min-width:0}.topbar{height:68px;background:white;border-bottom:1px solid #E6E9E5;display:flex;align-items:center;justify-content:space-between;padding:0 26px;position:sticky;top:0;z-index:10}
+  .crumb{font-size:13px;color:var(--muted)}.crumb b{color:var(--charcoal)}
+  .topactions{display:flex;gap:10px;align-items:center}.toggle{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+  .switch{width:39px;height:22px;background:#D8DDD9;border-radius:22px;padding:3px;transition:.2s}.switch i{display:block;width:16px;height:16px;border-radius:50%;background:white;box-shadow:0 1px 4px #999;transition:.2s}.switch.on{background:var(--sage)}.switch.on i{transform:translateX(17px)}
+  .outline,.primary,.ghost{border-radius:8px;padding:9px 13px;font-weight:650;font-size:12px}.outline{background:white;border:1px solid #CDD4CF;color:var(--forest)}.primary{background:var(--forest);border:1px solid var(--forest);color:white}.ghost{border:0;background:#EEF2EF;color:var(--forest)}
+  .content{padding:26px;max-width:1500px;margin:auto}.screen{display:none}.screen.active{display:block}.eyebrow{font-size:11px;color:var(--sage);font-weight:800;text-transform:uppercase;letter-spacing:1.7px}.title-row{display:flex;justify-content:space-between;gap:20px;align-items:flex-end;margin:4px 0 22px}.title-row h1{font-size:28px;margin:3px 0 3px;letter-spacing:-.6px;color:var(--forest)}.subtitle{color:var(--muted);font-size:13px;margin:0}.progress{display:flex;gap:6px}.progress span{width:35px;height:4px;border-radius:4px;background:#DADFDA}.progress .on{background:var(--sage)}
+  .grid{display:grid;gap:16px}.g2{grid-template-columns:1.6fr 1fr}.g3{grid-template-columns:repeat(3,1fr)}.g4{grid-template-columns:repeat(4,1fr)}
+  .card{background:white;border:1px solid #E1E5E0;border-radius:12px;box-shadow:0 1px 2px rgba(0,0,0,.02);padding:18px}.card h3{font-size:14px;margin:0 0 14px;color:var(--forest)}
+  .metric{font-size:26px;font-weight:800;color:var(--forest);letter-spacing:-.6px}.metric small{font-size:12px;font-weight:600;color:var(--muted)}.label{font-size:11px;color:var(--muted);margin-top:2px}.delta{font-size:10px;color:var(--ok);margin-top:5px}
+  .searchbox{display:flex;gap:8px}.searchbox input{flex:1;border:1px solid #C9D0CA;border-radius:9px;padding:11px 12px}.field label{font-size:11px;font-weight:700;color:#58615B;display:block;margin-bottom:5px}.field input,.field select{width:100%;border:1px solid #CDD4CF;border-radius:8px;padding:9px 10px;background:white}.fields{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .map{height:420px;border-radius:12px;overflow:hidden;background:#DCE5D9;border:1px solid #D3D9D2;position:relative}.map.small{height:335px}.map svg{width:100%;height:100%;display:block}.maptag{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.92);border:1px solid #D8DDD8;border-radius:8px;padding:7px 9px;font-size:10px;font-weight:700;color:var(--forest)}.maptools{position:absolute;right:12px;top:12px;display:flex;flex-direction:column;gap:6px}.maptools button{width:32px;height:32px;border-radius:7px;border:1px solid #D1D6D1;background:white;color:var(--forest);font-weight:800}
+  .stand-legend{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px;font-size:11px;color:var(--muted)}.dot{width:9px;height:9px;border-radius:2px;display:inline-block;margin-right:5px}.s1{background:#315E46}.s2{background:#76936F}.s3{background:#B7A67A}.water{background:#6E97A6}.road{background:#9B8D7B}
+  .insight{padding:12px 0;border-bottom:1px solid #EDF0ED}.insight:last-child{border-bottom:0}.insight b{font-size:12px;color:var(--charcoal)}.insight p{font-size:11px;color:var(--muted);margin:4px 0 0;line-height:1.45}.pill{display:inline-flex;align-items:center;gap:5px;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:700;background:#EEF3EF;color:var(--forest)}.pill.warn{background:#F7EEE1;color:#875916}.pill.ok{background:#E8F2EC;color:#286246}.pill.dark{background:#E5E9E7;color:#37433D}
+  .standrow,.plotrow,.treerow{display:grid;align-items:center;border-top:1px solid #E8EBE7;padding:10px 0;font-size:11px}.standrow{grid-template-columns:1.8fr .7fr 1fr .8fr}.plotrow{grid-template-columns:.5fr 1fr 1fr .8fr .8fr}.treerow{grid-template-columns:.5fr 1.1fr .8fr .8fr 1fr .9fr .5fr;gap:6px}.thead{font-weight:700;color:#667069;background:#FAFBF9;border-radius:6px;padding-left:8px;padding-right:8px}.treerow input,.treerow select{min-width:0;width:100%;border:1px solid #D4D9D4;border-radius:6px;padding:7px;background:white;font-size:11px}
+  .seg{display:flex;background:#EEF1EE;border-radius:8px;padding:3px}.seg button{border:0;background:transparent;border-radius:6px;padding:7px 10px;font-size:10px;color:#69716C}.seg button.on{background:white;color:var(--forest);box-shadow:0 1px 4px #D6DBD7;font-weight:700}
+  .callout{border-left:3px solid var(--sage);background:#F0F4F1;border-radius:0 9px 9px 0;padding:11px 12px;font-size:11px;line-height:1.45;color:#4F5B53}.callout.warn{border-left-color:var(--warn);background:#FBF5EA}.callout strong{color:var(--forest)}
+  .interview{display:none;margin:0 0 18px;border:1px dashed #AFB9B1;background:#FFFDF7;border-radius:10px;padding:12px 14px}.interview.show{display:flex;gap:11px}.interview .q{font-size:18px}.interview b{font-size:11px;color:var(--forest)}.interview p{font-size:11px;color:#666;margin:3px 0 0;line-height:1.45}
+  .footer-actions{display:flex;justify-content:space-between;margin-top:18px}.hint{font-size:10px;color:#8A928D;margin-top:8px}.statusline{display:flex;align-items:center;gap:7px;font-size:11px;color:var(--muted)}.statusdot{width:7px;height:7px;background:var(--ok);border-radius:50%}
+  .phone{width:320px;border:8px solid #202B27;border-radius:28px;background:white;box-shadow:var(--shadow);overflow:hidden;margin:auto}.phone-top{height:26px;background:#202B27}.phone-head{background:var(--forest);color:white;padding:12px 14px}.phone-head b{font-size:13px}.phone-head small{display:block;color:#C5D7CF;font-size:10px;margin-top:2px}.phone-map{height:158px;background:#DCE5D9}.phone-body{padding:12px}.phone-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:10px}.bigplot{font-size:26px;font-weight:800;color:var(--forest)}
+  .kpi-strip{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.kpi{background:#F8FAF8;border:1px solid #E1E7E2;border-radius:10px;padding:12px}.kpi b{display:block;font-size:17px;color:var(--forest)}.kpi span{font-size:9px;color:var(--muted)}
+  .barrow{display:grid;grid-template-columns:90px 1fr 50px;gap:10px;align-items:center;font-size:10px;margin:9px 0}.bar{height:8px;background:#E9EDE9;border-radius:8px;overflow:hidden}.bar i{display:block;height:100%;background:var(--sage);border-radius:8px}.issue{display:flex;justify-content:space-between;gap:10px;padding:10px;border:1px solid #E7EAE6;border-radius:8px;margin-bottom:8px}.issue b{font-size:11px}.issue p{font-size:10px;color:var(--muted);margin:3px 0 0}.issue button{border:0;background:#EDF2EE;color:var(--forest);font-size:10px;border-radius:6px;padding:6px 8px;align-self:center}
+  .report{background:white;border:1px solid #D9DFDA;box-shadow:var(--shadow);border-radius:5px;padding:28px;max-width:780px;margin:auto}.report-head{display:flex;justify-content:space-between;border-bottom:2px solid var(--forest);padding-bottom:14px}.report h2{font-size:24px;color:var(--forest);margin:0}.score{width:76px;height:76px;border-radius:50%;border:7px solid var(--sage);display:grid;place-items:center;font-weight:900;font-size:25px;color:var(--forest)}.report-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;margin-top:18px}.report p{font-size:10px;line-height:1.6;color:#59625D}.mini-map{height:145px;border-radius:8px;overflow:hidden;background:#DCE5D9}.recommend{background:#F0F4F1;border-radius:8px;padding:12px;font-size:10px;color:#455349;line-height:1.45}
+  .toast{position:fixed;bottom:22px;right:22px;background:#152A22;color:white;padding:11px 14px;border-radius:9px;font-size:11px;box-shadow:var(--shadow);transform:translateY(80px);opacity:0;transition:.25s;z-index:99}.toast.show{transform:none;opacity:1}
+  @media(max-width:980px){.app{grid-template-columns:1fr}.sidebar{position:fixed;z-index:30;width:230px;transform:translateX(-100%)}.g2,.g3,.g4,.report-grid{grid-template-columns:1fr}.kpi-strip{grid-template-columns:repeat(2,1fr)}.content{padding:16px}.title-row{align-items:flex-start;flex-direction:column}.topbar{padding:0 14px}.phone{width:100%;max-width:320px}}
+</style>
+</head>
+<body>
+<div class="app">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="brandmark"><i class="branch b1"></i><i class="branch b2"></i><i class="branch b3"></i><i class="branch b1 r"></i><i class="branch b2 r"></i><i class="branch b3 r"></i></div>
+      <div><div class="brandname">TIMBERFORGE</div><div class="brandtag">FORESTS FUEL OPPORTUNITY</div></div>
+    </div>
+    <div class="nav" id="nav"></div>
+    <div class="sidefoot"><span class="badge-beta">Customer Discovery Prototype</span><br>Assess. Cruise. Value. Score.<br><br>A LandForge company</div>
+  </aside>
+  <main>
+    <header class="topbar">
+      <div class="crumb">Cedar Creek Tract &nbsp;/&nbsp; <b id="crumb">Create Property</b></div>
+      <div class="topactions">
+        <div class="toggle"><span>Interview Mode</span><div id="interviewToggle" class="switch" onclick="toggleInterview()"><i></i></div></div>
+        <button class="outline" onclick="toast('Prototype feedback noted')">Add Note</button>
+      </div>
+    </header>
+    <div class="content">
+
+      <!-- SCREEN 1 -->
+      <section class="screen active" data-title="Create Property">
+        <div class="eyebrow">01 / Property</div>
+        <div class="title-row"><div><h1>Start with the property</h1><p class="subtitle">Find a parcel and create a cruise workspace in seconds.</p></div><div class="progress"><span class="on"></span><span></span><span></span><span></span><span></span><span></span></div></div>
+        <div class="interview"><div class="q">?</div><div><b>Discovery prompt</b><p>Ask: “How do you normally receive a new property? Where do you go first for parcel boundaries, aerials and basic tract information?”</p></div></div>
+        <div class="grid g2">
+          <div class="card">
+            <h3>Find property</h3>
+            <div class="searchbox"><input value="Cedar Creek Rd, Prince Edward County, VA" aria-label="property search"><button class="primary" onclick="toast('Parcel found — 218.6 acres')">Search</button></div>
+            <div style="margin-top:14px" class="map">
+              <div class="maptag">Parcel boundary • 218.6 ac</div>
+              <div class="maptools"><button>+</button><button>−</button><button>⌖</button></div>
+              <svg viewBox="0 0 800 480" preserveAspectRatio="none">
+                <rect width="800" height="480" fill="#dce5d9"/>
+                <path d="M0,65 C180,30 280,90 430,50 C585,10 700,82 800,45 L800,0 L0,0Z" fill="#cdd8c7"/>
+                <path d="M40,440 C220,320 190,230 280,165 C355,110 490,120 600,58" fill="none" stroke="#9b8d7b" stroke-width="14" opacity=".9"/>
+                <path d="M580,480 C530,390 610,320 560,250 C520,190 560,120 540,0" fill="none" stroke="#6e97a6" stroke-width="7" opacity=".9"/>
+                <polygon points="185,82 515,55 654,176 619,381 428,440 201,376 135,227" fill="#466c53" opacity=".88" stroke="#fff" stroke-width="5"/>
+                <polygon points="185,82 358,68 390,213 160,234 135,227" fill="#315e46" opacity=".93"/>
+                <polygon points="358,68 515,55 654,176 520,246 390,213" fill="#76936f" opacity=".95"/>
+                <polygon points="160,234 390,213 520,246 619,381 428,440 201,376" fill="#a99a71" opacity=".88"/>
+                <path d="M135 227 L185 82 L515 55 L654 176 L619 381 L428 440 L201 376 Z" fill="none" stroke="#f7f5ee" stroke-width="5"/>
+              </svg>
+            </div>
+            <div class="stand-legend"><span><i class="dot s1"></i>Mature pine</span><span><i class="dot s2"></i>Pine-hardwood</span><span><i class="dot s3"></i>Young pine</span><span><i class="dot water"></i>Stream</span><span><i class="dot road"></i>Road</span></div>
+          </div>
+          <div class="card">
+            <h3>Property workspace</h3>
+            <div class="fields"><div class="field"><label>Property name</label><input value="Cedar Creek Tract"></div><div class="field"><label>Client</label><input value="James Walker"></div><div class="field"><label>County</label><input value="Prince Edward"></div><div class="field"><label>State</label><input value="Virginia"></div></div>
+            <div style="margin-top:18px" class="grid g2">
+              <div class="kpi"><b>218.6</b><span>Total acres</span></div><div class="kpi"><b>191.2</b><span>Est. forested acres</span></div>
+            </div>
+            <div class="insight"><b>Parcel loaded</b><p>Boundary, acreage and base imagery are ready for review.</p></div>
+            <div class="insight"><b>Next: pre-cruise assessment</b><p>TimberForge will layer stand estimates, terrain, access, water features, mills and preliminary timber intelligence.</p></div>
+            <button class="primary" style="width:100%;margin-top:18px" onclick="go(1)">Create Property & Assess →</button>
+            <div class="hint">Prototype data is illustrative and not a professional timber estimate.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SCREEN 2 -->
+      <section class="screen" data-title="Pre-Cruise Assessment">
+        <div class="eyebrow">02 / Assess</div>
+        <div class="title-row"><div><h1>Know more before you go</h1><p class="subtitle">One pre-cruise view of stands, terrain, access, water, mills and preliminary timber estimates.</p></div><div class="progress"><span class="on"></span><span class="on"></span><span></span><span></span><span></span><span></span></div></div>
+        <div class="interview"><div class="q">?</div><div><b>Discovery prompt</b><p>Ask: “Which of these layers do you gather today? What would you trust before a field visit, and what would you never want software to infer?”</p></div></div>
+        <div class="grid g2">
+          <div>
+            <div class="map">
+              <div class="maptag">Suggested stand delineation • Confidence 78%</div>
+              <div class="maptools"><button title="layers">▱</button><button>+</button><button>−</button></div>
+              <svg viewBox="0 0 800 480" preserveAspectRatio="none">
+                <rect width="800" height="480" fill="#d8e3d6"/>
+                <path d="M40,440 C220,320 190,230 280,165 C355,110 490,120 600,58" fill="none" stroke="#9b8d7b" stroke-width="14"/>
+                <path d="M580,480 C530,390 610,320 560,250 C520,190 560,120 540,0" fill="none" stroke="#6e97a6" stroke-width="9"/>
+                <polygon points="185,82 358,68 390,213 160,234 135,227" fill="#315e46" stroke="#f6f3ea" stroke-width="4"/>
+                <polygon points="358,68 515,55 654,176 520,246 390,213" fill="#76936f" stroke="#f6f3ea" stroke-width="4"/>
+                <polygon points="160,234 390,213 520,246 619,381 428,440 201,376" fill="#b7a67a" stroke="#f6f3ea" stroke-width="4"/>
+                <text x="255" y="150" fill="white" font-size="18" font-weight="700">Stand A</text><text x="482" y="153" fill="white" font-size="18" font-weight="700">Stand B</text><text x="365" y="330" fill="white" font-size="18" font-weight="700">Stand C</text>
+                <circle cx="685" cy="105" r="11" fill="#0f2d23"/><text x="701" y="110" font-size="12" fill="#0f2d23">Mill • 18.4 mi</text>
+              </svg>
+            </div>
+            <div class="stand-legend"><span><i class="dot s1"></i>A: Mature pine 74.3 ac</span><span><i class="dot s2"></i>B: Pine-hardwood 51.8 ac</span><span><i class="dot s3"></i>C: Young pine 65.1 ac</span></div>
+          </div>
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0">Pre-cruise intelligence</h3><span class="pill ok">78% confidence</span></div>
+            <div class="insight"><b>Timber type</b><p>Likely loblolly-dominant pine with mixed hardwood component in lower drainage.</p></div>
+            <div class="insight"><b>Estimated age</b><p>Stand A: 27–32 yrs • Stand B: 30–40 yrs • Stand C: 14–18 yrs</p></div>
+            <div class="insight"><b>Terrain & access</b><p>Mostly 4–12% slope. Existing interior road reaches Stands A/C. Wet-weather concern near eastern crossing.</p></div>
+            <div class="insight"><b>Water / SMZ cue</b><p>Perennial stream along east boundary with two likely drainage crossings.</p></div>
+            <div class="insight"><b>Mill context</b><p>3 candidate pine markets within 41 road miles; nearest estimated at 18.4 miles.</p></div>
+            <div class="insight"><b>Preliminary value</b><p><strong style="font-size:17px;color:var(--forest)">$312K–$389K</strong> <span class="pill warn">Low/med confidence</span></p></div>
+            <div class="callout"><strong>Forester control:</strong> Accept, edit or override every suggested stand and estimate before cruise design.</div>
+          </div>
+        </div>
+        <div class="footer-actions"><button class="outline" onclick="go(0)">← Property</button><button class="primary" onclick="go(2)">Confirm Stands & Design Cruise →</button></div>
+      </section>
+
+      <!-- SCREEN 3 -->
+      <section class="screen" data-title="Cruise Design">
+        <div class="eyebrow">03 / Plan</div>
+        <div class="title-row"><div><h1>Design the cruise</h1><p class="subtitle">Set method and precision; TimberForge recommends plot count and distributes sample points.</p></div><div class="progress"><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span><span></span></div></div>
+        <div class="interview"><div class="q">?</div><div><b>Discovery prompt</b><p>Ask: “Would you want software to recommend plot count/BAF, or only automate a plan you define? What is missing from this setup?”</p></div></div>
+        <div class="grid g2">
+          <div>
+            <div class="map small">
+              <div class="maptag" id="plotTag">Recommended sample • 42 points</div>
+              <svg viewBox="0 0 800 420" preserveAspectRatio="none" id="plotMap">
+                <rect width="800" height="420" fill="#dce5d9"/><polygon points="185,70 358,60 390,185 160,205 135,198" fill="#315e46"/><polygon points="358,60 515,50 654,155 520,215 390,185" fill="#76936f"/><polygon points="160,205 390,185 520,215 619,335 428,390 201,330" fill="#b7a67a"/>
+              </svg>
+            </div>
+            <div class="hint">Plot locations are illustrative. Click “Regenerate sample” to simulate a new layout.</div>
+          </div>
+          <div class="card">
+            <h3>Cruise parameters</h3>
+            <div class="fields"><div class="field"><label>Method</label><select><option>Variable-radius / point sample</option><option>Fixed-area plot</option><option>100% cruise</option></select></div><div class="field"><label>BAF</label><select><option>10</option><option>20</option><option>15</option></select></div><div class="field"><label>Target sampling error</label><select><option>±10%</option><option>±5%</option><option>±15%</option></select></div><div class="field"><label>Confidence</label><select><option>95%</option><option>90%</option></select></div></div>
+            <div class="callout" style="margin-top:14px"><strong>Recommendation:</strong> 42 sample points across 3 stands. Stand A receives additional points due to greater predicted volume variability.</div>
+            <button class="ghost" style="width:100%;margin-top:10px" onclick="drawPlots(true)">↻ Regenerate sample</button>
+            <div style="margin-top:14px">
+              <div class="standrow thead"><span>Stand</span><span>Acres</span><span>Plots</span><span>Spacing</span></div>
+              <div class="standrow"><span><b>A • Mature pine</b></span><span>74.3</span><span>18</span><span>~4.1 ac</span></div><div class="standrow"><span><b>B • Pine-HW</b></span><span>51.8</span><span>11</span><span>~4.7 ac</span></div><div class="standrow"><span><b>C • Young pine</b></span><span>65.1</span><span>13</span><span>~5.0 ac</span></div>
+            </div>
+          </div>
+        </div>
+        <div class="footer-actions"><button class="outline" onclick="go(1)">← Assessment</button><button class="primary" onclick="go(3)">Send to Field →</button></div>
+      </section>
+
+      <!-- SCREEN 4 -->
+      <section class="screen" data-title="Field Cruise">
+        <div class="eyebrow">04 / Cruise</div>
+        <div class="title-row"><div><h1>Fast field collection</h1><p class="subtitle">Navigate point-to-point, tally quickly, save offline and surface problems while you can still fix them.</p></div><div class="progress"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span><span></span></div></div>
+        <div class="interview"><div class="q">?</div><div><b>Discovery prompt</b><p>Ask the forester to enter two trees. Observe whether the field order, labels and number of taps match how they actually cruise.</p></div></div>
+        <div class="grid g2" style="grid-template-columns:.8fr 1.7fr">
+          <div class="phone">
+            <div class="phone-top"></div><div class="phone-head"><b>Stand A • Plot 07</b><small>GPS 8 ft • Offline ready ✓</small></div>
+            <div class="phone-map"><svg viewBox="0 0 320 158"><rect width="320" height="158" fill="#dce5d9"/><path d="M0 145 C70 100 95 130 140 68 C190 5 250 65 320 18" fill="none" stroke="#9b8d7b" stroke-width="7"/><circle cx="167" cy="82" r="8" fill="#0f2d23"/><circle cx="235" cy="45" r="5" fill="#607d68"/><circle cx="99" cy="118" r="5" fill="#607d68"/><path d="M167 82 L235 45" stroke="#0f2d23" stroke-width="2" stroke-dasharray="4 5"/></svg></div>
+            <div class="phone-body"><div class="phone-row"><span>Current point</span><span class="bigplot">07 / 42</span></div><div class="phone-row"><span>Next point</span><b>326 ft • NE</b></div><div class="phone-row"><span>Stand progress</span><b>7 / 18</b></div><button class="primary" style="width:100%" onclick="toast('Navigation started to Plot 08')">Navigate to next point</button></div>
+          </div>
+          <div class="card">
+            <div style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0">Tree tally • Plot 07</h3><div class="statusline"><i class="statusdot"></i>Saved locally 2 sec ago</div></div>
+            <div class="treerow thead"><span>#</span><span>Species</span><span>DBH</span><span>Ht</span><span>Product</span><span>Defect</span><span></span></div>
+            <div id="treeRows">
+              <div class="treerow"><span>1</span><select><option>Loblolly pine</option><option>White oak</option><option>Red oak</option></select><input value="15.8"><input value="78"><select><option>Sawtimber</option><option>Pulpwood</option></select><input value="0"><button class="ghost" onclick="this.parentElement.remove()">×</button></div>
+              <div class="treerow"><span>2</span><select><option>Loblolly pine</option><option>White oak</option><option>Red oak</option></select><input value="12.4"><input value="71"><select><option>Chip-n-saw</option><option>Sawtimber</option></select><input value="5"><button class="ghost" onclick="this.parentElement.remove()">×</button></div>
+            </div>
+            <button class="ghost" onclick="addTree()" style="margin-top:10px">+ Add tree</button>
+            <div class="grid g3" style="margin-top:16px"><div class="kpi"><b>6</b><span>Trees in point</span></div><div class="kpi"><b>104</b><span>Est. BA/ac</span></div><div class="kpi"><b>14.7”</b><span>QMD</span></div></div>
+            <div class="callout warn" style="margin-top:14px"><strong>Live QA:</strong> One height entry on Plot 06 is >2.5 SD above the current stand pattern. Review before leaving the stand.</div>
+          </div>
+        </div>
+        <div class="footer-actions"><button class="outline" onclick="go(2)">← Cruise Design</button><button class="primary" onclick="go(4)">Finish Cruise & Run QA →</button></div>
+      </section>
+
+      <!-- SCREEN 5 -->
+      <section class="screen" data-title="QA & Results">
+        <div class="eyebrow">05 / Validate & Value</div>
+        <div class="title-row"><div><h1>Catch issues. Compile instantly.</h1><p class="subtitle">Turn raw field measurements into defensible stand metrics, volume, value and confidence.</p></div><div class="progress"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span></span></div></div>
+        <div class="interview"><div class="q">?</div><div><b>Discovery prompt</b><p>Ask: “Which QA checks do you do today before leaving the property? Which results must be visible before you trust a cruise?”</p></div></div>
+        <div class="kpi-strip"><div class="kpi"><b>96.8</b><span>Basal area / ac</span></div><div class="kpi"><b>14.2”</b><span>QMD</span></div><div class="kpi"><b>91.4</b><span>Tons / ac</span></div><div class="kpi"><b>±8.7%</b><span>Sampling error</span></div><div class="kpi"><b>$2,080</b><span>Timber value / ac</span></div></div>
+        <div class="grid g2" style="margin-top:16px">
+          <div class="card"><div style="display:flex;justify-content:space-between;align-items:center"><h3 style="margin:0">QA review</h3><span class="pill warn">3 items to review</span></div>
+            <div style="margin-top:12px" class="issue"><div><b>Plot 06 • Height outlier</b><p>Loblolly pine height entered as 122 ft; stand median is 74 ft.</p></div><button onclick="toast('Marked for review')">Review</button></div>
+            <div class="issue"><div><b>Stand B • Sampling gap</b><p>Western portion is >700 ft from nearest sample point.</p></div><button onclick="toast('Suggested extra plot added')">+ Plot</button></div>
+            <div class="issue"><div><b>Tree 142 • Product conflict</b><p>9.1” DBH tagged Sawtimber; current product rule suggests pulpwood/chip-n-saw.</p></div><button onclick="toast('Product rule opened')">Review</button></div>
+            <div class="callout"><strong>Target met:</strong> Overall cruise sampling error is within ±10% target at 95% confidence.</div>
+          </div>
+          <div class="card"><h3>Volume & value by product</h3>
+            <div class="barrow"><span>Pine sawtimber</span><div class="bar"><i style="width:72%"></i></div><b>$238K</b></div><div class="barrow"><span>Chip-n-saw</span><div class="bar"><i style="width:42%"></i></div><b>$86K</b></div><div class="barrow"><span>Pine pulpwood</span><div class="bar"><i style="width:25%"></i></div><b>$31K</b></div><div class="barrow"><span>Hardwood</span><div class="bar"><i style="width:18%"></i></div><b>$43K</b></div>
+            <hr style="border:0;border-top:1px solid #E6EAE6;margin:17px 0"><div style="display:flex;justify-content:space-between;align-items:flex-end"><div><div class="label">Estimated total timber value</div><div class="metric">$398,000</div></div><span class="pill ok">Cruise-derived</span></div>
+            <div style="margin-top:18px"><h3>Prediction vs. actual</h3><div class="barrow"><span>Pre-cruise volume</span><div class="bar"><i style="width:82%"></i></div><b>82 t/ac</b></div><div class="barrow"><span>Actual cruise</span><div class="bar"><i style="width:91%"></i></div><b>91 t/ac</b></div><div class="delta">+11.5% vs preliminary estimate • captured as ground truth</div></div>
+          </div>
+        </div>
+        <div class="footer-actions"><button class="outline" onclick="go(3)">← Field Cruise</button><button class="primary" onclick="go(5)">Generate Client Report →</button></div>
+      </section>
+
+      <!-- SCREEN 6 -->
+      <section class="screen" data-title="Client Report">
+        <div class="eyebrow">06 / Report & Score</div>
+        <div class="title-row"><div><h1>From field data to client-ready report</h1><p class="subtitle">Editable, transparent reporting with the forestry metrics underneath the score.</p></div><div class="progress"><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span><span class="on"></span></div></div>
+        <div class="interview"><div class="q">?</div><div><b>Discovery prompt</b><p>Ask: “How long does reporting take today? What would you remove, add or rearrange before giving this to a client?”</p></div></div>
+        <div class="report">
+          <div class="report-head"><div><div class="eyebrow">TIMBERFORGE CRUISE REPORT</div><h2>Cedar Creek Tract</h2><p style="margin:4px 0 0">Prince Edward County, Virginia • 218.6 acres</p></div><div><div class="score">82</div><div class="label" style="text-align:center">TimberForge Score</div></div></div>
+          <div class="report-grid"><div><h3>Executive summary</h3><p>The cruise indicates approximately 191 forested acres across three timber stands. Mature pine contributes the majority of current merchantable value. Overall sampling precision met the configured target, with one localized sampling gap flagged for professional review.</p>
+            <div class="grid g3"><div class="kpi"><b>$398K</b><span>Est. timber value</span></div><div class="kpi"><b>91.4</b><span>Tons / acre</span></div><div class="kpi"><b>±8.7%</b><span>Sampling error</span></div></div>
+            <h3 style="margin-top:18px">Stand summary</h3><div class="standrow thead"><span>Stand</span><span>Acres</span><span>Volume/ac</span><span>Value/ac</span></div><div class="standrow"><span>A • Mature pine</span><span>74.3</span><span>118 t</span><span>$2,840</span></div><div class="standrow"><span>B • Pine-HW</span><span>51.8</span><span>84 t</span><span>$2,040</span></div><div class="standrow"><span>C • Young pine</span><span>65.1</span><span>54 t</span><span>$1,260</span></div>
+          </div><div><div class="mini-map"><svg viewBox="0 0 300 145" preserveAspectRatio="none"><rect width="300" height="145" fill="#dce5d9"/><polygon points="62,20 135,17 148,68 52,75 45,73" fill="#315e46"/><polygon points="135,17 205,15 250,56 198,83 148,68" fill="#76936f"/><polygon points="52,75 148,68 198,83 235,124 166,138 72,122" fill="#b7a67a"/></svg></div><h3 style="margin-top:16px">Cruise methodology</h3><p>Variable-radius point sampling • BAF 10 • 42 sample points • 95% confidence target.</p><h3>Harvest / access</h3><p>Existing interior access serves Stands A and C. Eastern drainage crossing should be field-confirmed before harvest planning.</p><div class="recommend"><b>Professional recommendation</b><br><br>Prioritize mature pine for near-term harvest evaluation while monitoring market conditions. Retain professional judgment for final sale design, product specifications and BMP/SMZ planning.</div></div></div>
+          <div style="display:flex;justify-content:space-between;align-items:center;border-top:1px solid #E5E9E5;margin-top:20px;padding-top:13px;font-size:9px;color:#808983"><span>Prepared with TimberForge • Professional Timber Intelligence</span><span>Assess. Cruise. Value. Score.</span></div>
+        </div>
+        <div style="display:flex;justify-content:center;gap:10px;margin-top:16px"><button class="outline" onclick="toast('Report editor opened')">Edit Report</button><button class="primary" onclick="toast('PDF export simulated')">Export PDF</button></div>
+        <div class="footer-actions"><button class="outline" onclick="go(4)">← QA & Results</button><button class="primary" onclick="go(0);toast('Prototype reset for next interview')">Start New Interview ↻</button></div>
+      </section>
+
+    </div>
+  </main>
+</div>
+<div class="toast" id="toast"></div>
+<script>
+const names=['Create Property','Pre-Cruise Assessment','Cruise Design','Field Cruise','QA & Results','Client Report'];
+let current=0, interview=false;
+const nav=document.getElementById('nav');
+names.forEach((n,i)=>{const b=document.createElement('button');b.innerHTML=`<span class="stepnum">${i+1}</span><span>${n}</span>`;b.onclick=()=>go(i);nav.appendChild(b)});
+function go(i){current=i;document.querySelectorAll('.screen').forEach((s,j)=>s.classList.toggle('active',j===i));[...nav.children].forEach((b,j)=>b.classList.toggle('active',j===i));document.getElementById('crumb').textContent=names[i];window.scrollTo({top:0,behavior:'smooth'});if(i===2) setTimeout(()=>drawPlots(false),30)}
+function toggleInterview(){interview=!interview;document.getElementById('interviewToggle').classList.toggle('on',interview);document.querySelectorAll('.interview').forEach(x=>x.classList.toggle('show',interview))}
+function toast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),1800)}
+function addTree(){const wrap=document.getElementById('treeRows'),n=wrap.children.length+1,row=document.createElement('div');row.className='treerow';row.innerHTML=`<span>${n}</span><select><option>Loblolly pine</option><option>White oak</option><option>Red oak</option></select><input value=""><input value=""><select><option>Sawtimber</option><option>Chip-n-saw</option><option>Pulpwood</option></select><input value="0"><button class="ghost" onclick="this.parentElement.remove()">×</button>`;wrap.appendChild(row);row.querySelector('input').focus();toast('Tree added')}
+function seeded(i){return (Math.sin(i*12.9898+current)*43758.5453)%1}
+function drawPlots(randomize){const svg=document.getElementById('plotMap');if(!svg)return;svg.querySelectorAll('.plotpt').forEach(x=>x.remove());const polys=[[[185,70],[358,60],[390,185],[160,205]],[[358,60],[515,50],[654,155],[520,215],[390,185]],[[160,205],[390,185],[520,215],[619,335],[428,390],[201,330]]];let pts=[];function inside(p,vs){let x=p[0],y=p[1],inside=false;for(let i=0,j=vs.length-1;i<vs.length;j=i++){let xi=vs[i][0],yi=vs[i][1],xj=vs[j][0],yj=vs[j][1];let intersect=((yi>y)!=(yj>y))&&(x<(xj-xi)*(y-yi)/(yj-yi)+xi);if(intersect)inside=!inside}return inside}
+ let counts=[18,11,13],k=1;polys.forEach((poly,pi)=>{let minx=Math.min(...poly.map(p=>p[0])),maxx=Math.max(...poly.map(p=>p[0])),miny=Math.min(...poly.map(p=>p[1])),maxy=Math.max(...poly.map(p=>p[1]));while(counts[pi]>0){let rx=randomize?Math.random():Math.abs(seeded(k++)),ry=randomize?Math.random():Math.abs(seeded(k++));let p=[minx+rx*(maxx-minx),miny+ry*(maxy-miny)];if(inside(p,poly)){pts.push(p);counts[pi]--}}});pts.forEach((p,i)=>{let c=document.createElementNS('http://www.w3.org/2000/svg','circle');c.setAttribute('cx',p[0]);c.setAttribute('cy',p[1]);c.setAttribute('r','5');c.setAttribute('fill','#F6F3EA');c.setAttribute('stroke','#0F2D23');c.setAttribute('stroke-width','2');c.setAttribute('class','plotpt');svg.appendChild(c)});if(randomize)toast('42 plot locations regenerated')}
+go(0);
+</script>
+</body>
+</html>
