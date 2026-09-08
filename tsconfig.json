@@ -1,0 +1,8 @@
+{
+  "files": [],
+  "references": [
+    { "path": "./packages/forestry-core" },
+    { "path": "./packages/landforge-contract" },
+    { "path": "./apps/field" }
+  ]
+}
