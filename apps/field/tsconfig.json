@@ -1,0 +1,18 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "./dist-types",
+    // No rootDir: the tests live beside src rather than inside it, and pinning
+    // rootDir to ./src would exclude them from typechecking — which is the one
+    // place a type error is cheapest to find.
+    "jsx": "react-jsx",
+    "types": ["vite/client"],
+    // The app is bundled by Vite, never by tsc. tsc's only job here is to say
+    // no. Emitting declarations for an application would be noise, but
+    // `composite` is required for project references, so the emit is parked in
+    // dist-types and ignored.
+    "composite": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx", "test/**/*.ts"],
+  "references": [{ "path": "../../packages/forestry-core" }]
+}

@@ -1,0 +1,281 @@
+/*
+ * Field styling.
+ *
+ * Three constraints, all of them physical rather than aesthetic:
+ *
+ *   1. Sunlight. High contrast, dark background, no thin grey-on-grey text.
+ *   2. Gloves. Nothing tappable is smaller than 48px, and the tally keypad is
+ *      the largest thing on its screen.
+ *   3. Cold hands and a wet screen. Generous spacing between destructive and
+ *      routine actions, because a mis-tap that deletes a tally is expensive.
+ */
+
+:root {
+  --bg: #12180f;
+  --panel: #1b241a;
+  --panel-2: #232f21;
+  --line: #33422f;
+  --ink: #eef3ea;
+  --ink-dim: #a9b8a4;
+  --green: #8fbf6f;
+  --green-deep: #1d3323;
+  --amber: #d8a657;
+  --red: #e06c5a;
+  --radius: 12px;
+  --tap: 48px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font: 16px/1.45 ui-sans-serif, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  -webkit-text-size-adjust: 100%;
+  overscroll-behavior-y: contain;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+header.bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px calc(12px + env(safe-area-inset-top));
+  background: var(--green-deep);
+  border-bottom: 1px solid var(--line);
+}
+
+header.bar h1 {
+  font-size: 17px;
+  margin: 0;
+  flex: 1;
+  font-weight: 650;
+  letter-spacing: 0.2px;
+}
+
+.pill {
+  font-size: 12px;
+  padding: 4px 9px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  color: var(--ink-dim);
+  white-space: nowrap;
+}
+.pill.offline {
+  border-color: var(--amber);
+  color: var(--amber);
+}
+.pill.pending {
+  border-color: var(--green);
+  color: var(--green);
+}
+
+main {
+  flex: 1;
+  padding: 16px 16px calc(24px + env(safe-area-inset-bottom));
+}
+
+h2 {
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--ink-dim);
+  margin: 24px 0 10px;
+}
+h2:first-child {
+  margin-top: 4px;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 10px;
+}
+
+button {
+  font: inherit;
+  min-height: var(--tap);
+  padding: 0 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--line);
+  background: var(--panel-2);
+  color: var(--ink);
+  cursor: pointer;
+}
+button:active {
+  transform: translateY(1px);
+}
+button.primary {
+  background: var(--green);
+  color: #101a0c;
+  border-color: var(--green);
+  font-weight: 650;
+}
+button.ghost {
+  background: transparent;
+}
+button.danger {
+  color: var(--red);
+  border-color: #4a2a26;
+}
+button:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.row.tight {
+  gap: 6px;
+}
+.spread {
+  justify-content: space-between;
+}
+.grow {
+  flex: 1;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--ink-dim);
+  margin-bottom: 4px;
+}
+
+input,
+select {
+  font: inherit;
+  width: 100%;
+  min-height: var(--tap);
+  padding: 0 12px;
+  background: var(--bg);
+  color: var(--ink);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.field {
+  margin-bottom: 12px;
+}
+
+.muted {
+  color: var(--ink-dim);
+}
+.small {
+  font-size: 13px;
+}
+.mono {
+  font-variant-numeric: tabular-nums;
+}
+
+/* The tally keypad. Deliberately the biggest thing on the screen. */
+.keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+.keypad button {
+  min-height: 56px;
+  font-size: 19px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+.keypad button.on {
+  background: var(--green);
+  color: #101a0c;
+  border-color: var(--green);
+}
+
+.tallylist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.tallylist li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 4px;
+  border-bottom: 1px solid var(--line);
+  font-variant-numeric: tabular-nums;
+}
+.tallylist li:last-child {
+  border-bottom: 0;
+}
+.seq {
+  width: 28px;
+  color: var(--ink-dim);
+  font-size: 13px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+  font-size: 14px;
+}
+th,
+td {
+  text-align: right;
+  padding: 7px 6px;
+  border-bottom: 1px solid var(--line);
+}
+th:first-child,
+td:first-child {
+  text-align: left;
+}
+th {
+  color: var(--ink-dim);
+  font-weight: 600;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.finding {
+  border-left: 3px solid var(--line);
+  padding: 8px 0 8px 12px;
+  margin-bottom: 8px;
+}
+.finding.error {
+  border-color: var(--red);
+}
+.finding.warning {
+  border-color: var(--amber);
+}
+.finding.info {
+  border-color: var(--green);
+}
+
+.empty {
+  color: var(--ink-dim);
+  padding: 24px 0;
+  text-align: center;
+}
