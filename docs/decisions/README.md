@@ -30,6 +30,7 @@ Numbering is sequential and permanent. Numbers are never reused.
 | [0004](0004-species-vocabulary.md) | Expand `SP_LIST` in LandForge rather than degrade the bridge | Accepted, LandForge work pending |
 | [0005](0005-shared-context-ownership.md) | LandForge is canonical; TimberForge mirrors with a drift check | Accepted |
 | [0006](0006-cruise-data-rights.md) | Cruise data is held in custody; ground-truth learning is opt-in and derived-features only | Accepted, implementation pending |
+| [0007](0007-landforge-metrics-surface.md) | Push-back and learning are separate objects; opt-in is per-custodian, stamped on the cruise | Accepted, implementation pending |
 
 ## Related
 
