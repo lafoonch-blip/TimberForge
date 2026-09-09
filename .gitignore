@@ -14,3 +14,14 @@ dev-dist/
 # Third-party reference material and compiled contact lists: keep out of the public repo
 docs/reference/*.pdf
 *.local.md
+
+# Personal working files. This repository is public and everything it publishes
+# is markdown, so Office documents sitting at the top level are drafts and notes
+# rather than deliverables. Anything inside _local/ is private to this machine.
+_local/
+/*.docx
+/*.xlsx
+/*.pptx
+/*.pages
+/*.numbers
+/*.key
