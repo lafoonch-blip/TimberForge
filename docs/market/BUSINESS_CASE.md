@@ -107,7 +107,7 @@ go-to-market around: **you can enumerate your entire market by name.**
 
 State forestry agencies publish consulting forester directories, and the launch
 states have now been counted directly (**verified**, 2026-09-08 — see
-[`OUTREACH_LIST.md` §1](OUTREACH_LIST.md#1-directory-counts) for the per-source
+[`DIRECTORY_COUNTS.md`](DIRECTORY_COUNTS.md) for the per-source
 detail):
 
 | Source | Listings | Notes |

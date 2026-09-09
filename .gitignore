@@ -10,3 +10,7 @@ build/
 coverage/
 .vite/
 dev-dist/
+
+# Third-party reference material and compiled contact lists: keep out of the public repo
+docs/reference/*.pdf
+*.local.md

@@ -1,7 +1,7 @@
 # Outreach and call prep
 
 Companion to [`INTERVIEW_KIT.md`](INTERVIEW_KIT.md) (the questions) and
-[`OUTREACH_LIST.md`](OUTREACH_LIST.md) (who to contact). This file is the part
+`OUTREACH_LIST.local.md` (who to contact — kept out of this repository, see [`DIRECTORY_COUNTS.md`](DIRECTORY_COUNTS.md)). This file is the part
 in between: how to get someone on the call, and what to have in front of you
 when they pick up.
 
@@ -73,7 +73,7 @@ back to asking for the 30 minutes. Do not demo on the recruiting call.
 
 ## 2. Sequencing the list
 
-`OUTREACH_LIST.md` has 62 named entries — 40 VA, 22 NC, 39 with a solo signal.
+`OUTREACH_LIST.local.md` has 62 named entries — 40 VA, 22 NC, 39 with a solo signal.
 That is more than you need, which means you can afford to spend the early
 conversations learning how to run the conversation.
 
