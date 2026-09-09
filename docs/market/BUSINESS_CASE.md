@@ -105,11 +105,33 @@ happens to coincide with a strong one.
 One property of this segment is genuinely unusual and worth building the
 go-to-market around: **you can enumerate your entire market by name.**
 
-State forestry agencies publish consulting forester directories — Virginia DOF
-maintains one with a view-all listing, as do West Virginia, South Carolina and
-Maine (**verified** that the directories exist; I could not retrieve the Virginia
-listing directly, as the domain is blocked from this environment, so the count is
-**unknown** until someone opens it).
+State forestry agencies publish consulting forester directories, and the launch
+states have now been counted directly (**verified**, 2026-09-08 — see
+[`OUTREACH_LIST.md` §1](OUTREACH_LIST.md#1-directory-counts) for the per-source
+detail):
+
+| Source | Listings | Notes |
+|---|---|---|
+| N.C. Forest Service statewide list | **187** | 147 with NC addresses; **169 full-time**, 13 part-time |
+| Virginia DOF consulting forester directory | **75** | 72 distinct businesses; self-registration, so a floor |
+| Virginia Forestry Association, consulting category | **31** | firm-level, overlaps VDOF; cross-check only |
+
+The number that matters is NCFS's **169 full-time** consultants — NCFS defines
+full-time as 75%+ of working time spent consulting, which is exactly the
+"this is my actual job" population. Virginia's directory is self-registered and
+therefore undercounts, but the two states together support **low hundreds of
+full-time practices**, not thousands.
+
+That is consistent with the 2,000–5,000 national estimate, but it makes **the
+lower half of that range the more defensible one.** If two of the more heavily
+forested eastern states yield a few hundred full-time consultants between them,
+a national figure near 5,000 requires the rest of the country to be far denser
+than these two, which is not obviously true. Treat 2,000–3,000 as the working
+number and revise upward only on evidence.
+
+An earlier draft recorded the Virginia count as **unknown** because dof.virginia.gov
+was unreachable. It was reachable on re-attempt; the block appears to have been
+intermittent rather than a standing restriction.
 
 Most companies cannot list their addressable market. You can, in an afternoon.
 That means no paid acquisition, direct outreach as the primary channel,
