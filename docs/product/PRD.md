@@ -5,11 +5,20 @@
 **Product:** TimberForge  
 **Version:** MVP / Beta  
 **Primary Users:** Consulting foresters and timber cruisers  
-**Core Product Flow:** **Assess → Cruise → Value → Score**
+**Core Product Flow (MVP):** **Assess → Cruise → Value → Score**
 
 TimberForge is a professional timber intelligence and cruising platform that helps foresters understand a property before visiting it, design and conduct a timber cruise, calculate inventory and timber value, generate a professional report, and produce a standardized TimberForge Score.
 
-TimberForge will operate as a standalone product initially. At a later stage, its score and underlying timber metrics will feed into LandForge.
+TimberForge operates as a standalone product. Its score and underlying timber metrics may later feed into LandForge under the constraints in [`../decisions/0007-landforge-metrics-surface.md`](../decisions/0007-landforge-metrics-surface.md); that integration is not required for TimberForge to succeed.
+
+> **Scope boundary (added 2026-09-09).** This PRD defines what ships.
+> [`VISION.md`](VISION.md) defines the long-term destination — an all-in-one
+> professional forestry platform whose full workflow is PROPERTY → ASSESS → PLAN
+> → CRUISE → QA → INVENTORY → VALUE → REPORT → LEARN. That nine-stage sequence is
+> the **product architecture, not the MVP scope**, and the MVP flow above is
+> unchanged by it. Where the two documents appear to disagree about scope, this
+> one wins. Open conflicts between the vision and existing decisions are tracked
+> in [`STRATEGY_RECONCILIATION.md`](STRATEGY_RECONCILIATION.md).
 
 > **Market position (added 2026-09-08).** Independent consulting foresters are the
 > chosen first segment, but they are a **wedge, not a market**. The whole US
@@ -61,6 +70,9 @@ TimberForge should unify these activities into one workflow while adding pre-cru
 - Replace a licensed/qualified forester.
 - Build LandForge integration into the first beta.
 - Build hardware integrations in the first release.
+- Build inventory management as a feature. The schema must *support* persistent stands, inventories and history ([`../decisions/0008-persistent-forest-assets.md`](../decisions/0008-persistent-forest-assets.md)); the MVP ships one inventory per stand and no history UI. Architecting for it and building it are different commitments.
+- Build ArcGIS integration, enterprise APIs, SSO, or organization management. These are roadmap Phase 5 ([`VISION.md` §7](VISION.md#7-roadmap)).
+- Ship a second business. TimberForge Intelligence is constrained by [`../decisions/0006-cruise-data-rights.md`](../decisions/0006-cruise-data-rights.md) and unresolved — see [`STRATEGY_RECONCILIATION.md` §1.1](STRATEGY_RECONCILIATION.md#11-intelligence-customers-versus-the-counterparty-constraint).
 
 ---
 
@@ -83,7 +95,17 @@ enumerated by name.** State forestry agencies publish consulting forester
 directories, so the addressable launch market is a list, not an estimate. Direct
 outreach is the channel; paid acquisition is not needed.
 
-### Secondary / Future — explicitly not now
+### Secondary / Future — explicitly not built for now
+
+**Build-target versus research-target (clarified 2026-09-09).** The segments
+below are not built for. They *are* worth interviewing, and the September 2026
+strategy direction adds procurement foresters, timber buyers, enterprise
+forestry professionals and academics to customer discovery. Those conversations
+answer different questions — enterprise GIS reality, buyer-side demand — and are
+**additional to**, not counted against, the consulting-forester interviews that
+feed the beta gate below. Talking to someone is not building for them; the
+guardrail in this section is about the latter and stands unchanged.
+
 
 - Procurement foresters
 - Timber buyers
@@ -582,6 +604,14 @@ gate to proceed:
 If nobody will name a tract, that is a clear and cheap answer, and the correct
 response is to stop rather than to push through.
 
+**The gate is scoped to consulting foresters, and stays that way.** Broadening
+customer discovery to other segments (see §4) must not dilute it. Academics and
+procurement foresters cannot name a tract they will let you cruise — that is
+structural, not a lack of enthusiasm — so counting them toward the same ~20
+would quietly convert a stop/go condition into a formality. Fifteen to twenty
+*consulting foresters*, three named tracts. Other segments are separate
+conversations with their own purpose.
+
 ### Beta Size
 
 Initial target:
@@ -779,3 +809,13 @@ while materially reducing workflow time compared with their current process.
 ## 20. Product Vision
 
 > **TimberForge is the professional timber intelligence platform that connects remote property analysis with real-world timber cruising to help foresters assess, cruise, value, and score timber assets.**
+
+That is the product this PRD specifies. The longer-term destination — an
+all-in-one operating platform for professional forestry, covering intelligence,
+cruising, mobile field operations, persistent inventory, valuation and reporting
+— is set out in [`VISION.md`](VISION.md).
+
+The relationship between them is deliberate and worth stating plainly: the
+vision is broad, the wedge is narrow, and **nothing in the vision document may be
+used to justify expanding the scope defined above.** The MVP earns the right to
+the destination by proving the wedge first.

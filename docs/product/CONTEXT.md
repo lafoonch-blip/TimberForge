@@ -8,6 +8,20 @@ The core strategy is:
 
 > **Assess → Cruise → Value → Score**
 
+> **Long-term direction (added 2026-09-09).** The destination is broader than
+> the above: an all-in-one operating platform for professional forestry, running
+> PROPERTY → ASSESS → PLAN → CRUISE → QA → INVENTORY → VALUE → REPORT → LEARN.
+> See [`VISION.md`](VISION.md). That sequence is the **product architecture, not
+> the MVP scope** — the MVP strategy in §10 of this document is unchanged, and
+> the guardrails there ("do not rebuild Forest Metrix feature-for-feature",
+> "challenge unnecessary scope") remain in force precisely because the vision is
+> now broader. Conflicts between the two are tracked in
+> [`STRATEGY_RECONCILIATION.md`](STRATEGY_RECONCILIATION.md).
+>
+> One architectural consequence is not deferrable: stands and properties must
+> **persist across cruises**, which the schema does not currently do. See
+> [`../decisions/0008-persistent-forest-assets.md`](../decisions/0008-persistent-forest-assets.md).
+
 TimberForge should help timber cruisers and consulting foresters:
 1. Understand a property before visiting it.
 2. Plan and conduct a timber cruise in the field.
@@ -94,7 +108,7 @@ The MVP should be optimized for the professional cruiser, not the landowner.
 
 ## 5. Core Product Workflow
 
-### Phase 1 — Pre-Cruise Intelligence
+### Stage 1 — Pre-Cruise Intelligence
 
 The user enters or selects a property.
 
@@ -127,7 +141,7 @@ This is intended to be a major TimberForge differentiator.
 
 ---
 
-### Phase 2 — Cruise Design
+### Stage 2 — Cruise Design
 
 TimberForge should help the forester design the cruise.
 
@@ -159,7 +173,7 @@ MVP should not attempt to support every possible forestry methodology unless use
 
 ---
 
-### Phase 3 — Field Cruise
+### Stage 3 — Field Cruise
 
 Mobile-first and offline-capable.
 
@@ -202,7 +216,7 @@ Potential future integrations:
 
 ---
 
-### Phase 4 — Real-Time QA
+### Stage 4 — Real-Time QA
 
 TimberForge should use rules and statistical checks to identify likely errors while the cruiser is still in the field.
 
@@ -222,7 +236,7 @@ The goal is to reduce errors before the cruiser leaves the property.
 
 ---
 
-### Phase 5 — Cruise Analytics
+### Stage 5 — Cruise Analytics
 
 After or during the cruise, TimberForge should calculate appropriate metrics such as:
 
@@ -440,6 +454,7 @@ The system should be designed approximately around:
 **User / Organization**
 → **Property / Parcel**
 → **Stand**
+→ **Inventory**
 → **Cruise**
 → **Stratum**
 → **Plot / Point**
@@ -453,6 +468,24 @@ The system should be designed approximately around:
 → **Report**
 
 Remote/pre-cruise observations should be stored separately from field-measured ground truth so TimberForge can compare predictions against actual cruise results.
+
+> **Persistence and history (added 2026-09-09).** Properties and stands are
+> **durable**; a cruise is an event that measures them. A stand carries an
+> **inventory** — the current best estimate of what is standing — which a
+> completed cruise updates rather than replaces, and a **stand event** log for
+> treatments, thinnings, harvests, regeneration, disturbances and inspections.
+> Plots and trees stay under the cruise, because a plot only means anything in
+> the context of the design that placed it.
+>
+> The implemented schema does not yet work this way — `timberforge.stand` is a
+> child of `cruise` and is deleted with it, so cruising the same tract twice
+> produces two unrelated stands. Recorded, with the migration path and the
+> reason the cost rises steeply after first deployment, in
+> [`../decisions/0008-persistent-forest-assets.md`](../decisions/0008-persistent-forest-assets.md).
+>
+> The separation of predicted from measured stated immediately above is a hard
+> constraint on that work: an inventory that merges a field measurement over a
+> prediction in place destroys the left-hand column of the ground-truth loop.
 
 Every important estimate should preserve:
 

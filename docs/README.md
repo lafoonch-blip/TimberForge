@@ -28,7 +28,7 @@ from this repository, so nothing here can prove LandForge hasn't changed.
 | [`integration/`](integration/) | Our interpretation of the LandForge contract; open questions | TimberForge |
 | [`market/`](market/) | [Business case](market/BUSINESS_CASE.md) and [forester interview kit](market/INTERVIEW_KIT.md) | TimberForge |
 | [`domain/`](domain/) | [Forestry glossary](domain/GLOSSARY.md) | TimberForge |
-| [`product/`](product/) | PRD, context, branding guide, app concept | TimberForge |
+| [`product/`](product/) | PRD (what ships), VISION (where it's going), strategy reconciliation, context, branding | TimberForge |
 | [`logo-concepts/`](logo-concepts/) | Logo *exploration* — concepts and SVG variants | TimberForge |
 | [`reference/`](reference/) | Source PDFs and background material | External |
 
