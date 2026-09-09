@@ -625,7 +625,12 @@ Important beta metrics:
 
 ## 15. User Research Needed
 
-Before heavy development, interview approximately 10–20 professional cruisers/foresters.
+Before heavy development, interview **15–20 consulting foresters** in VA/NC. (An
+earlier draft said 10–20; the go/no-go gate in `PRD.md` §12 assumes 15–20, and
+the smaller number would weaken it.) Other segments — procurement foresters,
+timber buyers, enterprise forestry staff, academics — are worth talking to, but
+those conversations answer different questions and are *additional to* this
+count, not part of it.
 
 Key questions:
 

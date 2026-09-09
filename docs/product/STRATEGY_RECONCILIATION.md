@@ -283,11 +283,12 @@ fixed-area only. A rewrite would orphan `0002`, `0003`, `0004`, `0006`, `0007`.
 
 ---
 
-## 5. Naming collision to fix
+## 5. Naming collision — RESOLVED 2026-09-09
 
-`CONTEXT.md:97–254` labels the *workflow stages* "Phase 1–5". The new roadmap
-labels *capability tranches* "Phase 1–6". Two different axes, same word.
-Rename the workflow stages to **stages** and reserve "Phase" for the roadmap.
+`CONTEXT.md` workflow steps renamed Phase 1–5 → **Stage 1–5**. `PRD.md` §18
+build sequence renamed Phase 0–4 → **Stage 0–4**. "Phase" now refers only to the
+capability roadmap in `VISION.md` §7. The interview count disagreement
+(15–20 vs 10–20) is also resolved to **15–20** in both documents.
 
 ---
 

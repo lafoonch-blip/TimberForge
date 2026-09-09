@@ -760,13 +760,22 @@ Before development is finalized:
 
 ## 18. Recommended Build Sequence
 
-### Phase 0 — Validation
-- 10–20 cruiser interviews
+**Two different sequences, and they are not the same thing.** This section is
+about **maturity** — how finished the product is. [`VISION.md` §7](VISION.md#7-roadmap)
+is about **capability** — what the product can do. You can be at Prototype
+maturity while working on capability Phase 1. To keep the word "Phase" meaning
+one thing, the stages below are now numbered **Stage 0–4**, and "Phase" refers
+only to the capability roadmap.
+
+### Stage 0 — Validation ← *current stage, 2026-09-09*
+- 15–20 consulting-forester interviews (see §12 for the gate; not 10–20)
+- A clickable prototype, shown **after** discussing the forester's current
+  workflow, never before
 - Competitor benchmark
 - Workflow mapping
 - Validate MVP cruise methods
 
-### Phase 1 — Prototype
+### Stage 1 — Prototype
 - Property setup
 - Pre-cruise assessment
 - Stand editor
@@ -774,25 +783,43 @@ Before development is finalized:
 - Mobile field workflow
 - Report prototype
 
-### Phase 2 — Functional Alpha
+### Stage 2 — Functional Alpha
 - Offline field collection
 - Calculation engine
 - QA
 - Pricing / valuation
 - Report generation
 
-### Phase 3 — Beta
+### Stage 3 — Beta
 - 5–10 cruisers
 - Real properties
 - Parallel validation against existing workflows
 - Predicted-vs-actual collection
 
-### Phase 4 — Commercial MVP
+### Stage 4 — Commercial MVP
 - Resolve beta issues
 - Finalize pricing
 - Improve reporting
 - Improve pre-cruise intelligence
 - Launch initial TimberForge Score
+
+### Where the work actually stands
+
+Some of the field app already exists — the tally screen, offline storage, the
+calculation engine. That is **capability Phase 2** work, built before capability
+Phase 1. Phase 1 is the pre-cruise intelligence, and it is the thing that makes
+TimberForge different from an incumbent that already cruises well (§13, and
+`CONTEXT.md:347–358` on cruising commoditising). None of Phase 1 exists.
+
+That is not wasted effort, but it means new building should go **backwards into
+Phase 1** rather than forward from what is already there.
+
+One structural item does not wait for validation, because its cost rises sharply
+rather than staying flat: stands are currently deleted along with the cruise that
+created them, which makes capability Phase 3 impossible without a rebuild. No
+migration has run against a live database yet, so fixing it now is a text edit.
+See [`../decisions/0008-persistent-forest-assets.md`](../decisions/0008-persistent-forest-assets.md).
+This changes the shape of the tables, not the scope of the MVP.
 
 ---
 
