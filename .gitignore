@@ -29,3 +29,6 @@ _local/
 # Reference material and competitor notes stay on this machine. Screenshots,
 # third-party docs and our competitor teardowns are never committed or published.
 docs/market/competitors/
+
+# Scratch output from Claude sessions
+Claude outputs/
