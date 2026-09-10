@@ -5,13 +5,13 @@
 **Product:** TimberForge  
 **Version:** MVP / Beta  
 **Primary Users:** Consulting foresters and timber cruisers  
-**Core Product Flow (MVP):** **Assess → Cruise → Value → Score**
+**Core Product Flow (MVP):** **Assess → Design → Cruise → QA → Value → Report**
 
-TimberForge is a professional timber intelligence and cruising platform that helps foresters understand a property before visiting it, design and conduct a timber cruise, calculate inventory and timber value, generate a professional report, and produce a standardized TimberForge Score.
+TimberForge is a professional timber intelligence and cruising platform that helps foresters understand a property before visiting it, design and conduct a timber cruise, calculate inventory and timber value, validate sampling quality, and generate a professional report.
 
-TimberForge operates as a standalone product. Its score and underlying timber metrics may later feed into LandForge under the constraints in [`../decisions/0007-landforge-metrics-surface.md`](../decisions/0007-landforge-metrics-surface.md); that integration is not required for TimberForge to succeed.
+TimberForge operates as a standalone product. Structured timber metrics may later feed into LandForge under the constraints in [`../decisions/0007-landforge-metrics-surface.md`](../decisions/0007-landforge-metrics-surface.md); that integration is not required for TimberForge to succeed.
 
-> **Scope boundary (added 2026-09-09).** This PRD defines what ships.
+> **Scope boundary (updated 2026-09-10).** This PRD defines what ships.
 > [`VISION.md`](VISION.md) defines the long-term destination — an all-in-one
 > professional forestry platform whose full workflow is PROPERTY → ASSESS → PLAN
 > → CRUISE → QA → INVENTORY → VALUE → REPORT → LEARN. That nine-stage sequence is
@@ -19,6 +19,12 @@ TimberForge operates as a standalone product. Its score and underlying timber me
 > unchanged by it. Where the two documents appear to disagree about scope, this
 > one wins. Open conflicts between the vision and existing decisions are tracked
 > in [`STRATEGY_RECONCILIATION.md`](STRATEGY_RECONCILIATION.md).
+>
+> TimberForge provides timber facts, measurements, calculations, valuation,
+> statistical confidence, and professional reporting. It does **not** recommend
+> what a user should do with the property. Property investment strategy, land-use
+> recommendations, development/subdivision recommendations, and prescriptive
+> harvest decisions are outside TimberForge's scope.
 
 > **Market position (added 2026-09-08).** Independent consulting foresters are the
 > chosen first segment, but they are a **wedge, not a market**. The whole US
@@ -59,7 +65,7 @@ TimberForge should unify these activities into one workflow while adding pre-cru
 3. Support professional-grade field data collection and cruise calculations.
 4. Generate a client-ready timber cruise report.
 5. Compare TimberForge pre-cruise predictions to actual cruise results.
-6. Create the foundation for a trusted TimberForge Score.
+6. Provide transparent cruise/data confidence using professional sampling statistics.
 7. Capture structured ground-truth data that can improve future remote timber estimates.
 
 ### Non-Goals for MVP
@@ -68,6 +74,8 @@ TimberForge should unify these activities into one workflow while adding pre-cru
 - Support every cruise methodology on launch.
 - Fully automate professional forestry judgment.
 - Replace a licensed/qualified forester.
+- Tell a user whether to buy, sell, hold, develop, subdivide, conserve, or otherwise use a property.
+- Tell a landowner whether or when to harvest timber.
 - Build LandForge integration into the first beta.
 - Build hardware integrations in the first release.
 - Build inventory management as a feature. The schema must *support* persistent stands, inventories and history ([`../decisions/0008-persistent-forest-assets.md`](../decisions/0008-persistent-forest-assets.md)); the MVP ships one inventory per stand and no history UI. Architecting for it and building it are different commitments.
@@ -105,7 +113,6 @@ answer different questions — enterprise GIS reality, buyer-side demand — and
 **additional to**, not counted against, the consulting-forester interviews that
 feed the beta gate below. Talking to someone is not building for them; the
 guardrail in this section is about the latter and stands unchanged.
-
 
 - Procurement foresters
 - Timber buyers
@@ -178,10 +185,13 @@ User can accept, edit, or override estimates.
 
 User:
 
-- Confirms / edits stands
-- Selects cruise method
+- Confirms / edits stands and geographic units
+- Defines strata separately from geographic units where needed
+- Selects cruise method by stratum
 - Sets target sampling error / confidence
 - Defines products / species
+- Configures BAF or fixed-plot size for supported methods
+- Reviews merchantability and volume assumptions
 - Reviews recommended plots
 
 TimberForge:
@@ -191,6 +201,8 @@ TimberForge:
 - Allocates plots by stand
 - Generates plot locations
 - Creates field navigation map
+
+Reconnaissance sampling should be able to measure stand variability and feed the required sample size into a production-cruise design without changing the underlying forestry method.
 
 ### Step 4 — Conduct Field Cruise
 
@@ -206,6 +218,7 @@ User records:
 - Product
 - Defect
 - Grade / quality where applicable
+- Plot slope / aspect / elevation / canopy cover where configured
 - Notes
 - Photos
 
@@ -242,8 +255,10 @@ TimberForge calculates:
 - Total volume
 - Product mix
 - Gross / net volume
+- Sampling mean / standard deviation / coefficient of variation / standard error where applicable
 - Sampling error
 - Confidence interval
+- Required total plots and additional plots needed for target precision
 - Value by species
 - Value by product
 - Value by stand
@@ -264,11 +279,12 @@ System generates editable report containing:
 - Stand tables
 - Volume summary
 - Timber valuation
-- Harvest / access considerations
+- Logging / access observations
 - Photos
 - Assumptions
-- TimberForge Score
-- Recommendations
+- Data quality / cruise confidence
+
+The report presents objective forestry findings and does not convert them into a property-use or harvest recommendation.
 
 ### Step 8 — Compare Prediction vs. Actual
 
@@ -341,14 +357,21 @@ This data should be stored for model improvement.
 
 **Must Have**
 
-- Create cruise
-- Assign stands
-- Select cruise method
-- Define species list
+- Create cruise and identify its purpose (for example reconnaissance or production)
+- Assign stands / geographic units
+- Define strata separately from geographic units where the cruise design requires it
+- Select one of the supported MVP cruise methods by stratum
+- Configure BAF or fixed-plot size as applicable
+- Define regional species list
 - Define products
-- Define measurements
-- Set target sampling error
+- Define minimum DBH and method-specific measurements
+- Configure merchantability assumptions required by the selected volume method
+- Configure log rule, form class, stump height, log length, and merchantable-height/top logic where applicable
+- Set target sampling error and confidence level
 - Create / edit plots
+- Preserve reconnaissance statistics so they can inform a production-cruise sample design
+
+This does **not** expand the MVP methodology set. The implemented foundation currently supports variable-radius/point sampling and fixed-area plots; additional methodologies remain subject to beta validation.
 
 ### 6.5 Field Data Collection
 
@@ -365,6 +388,7 @@ This data should be stored for model improvement.
 - Notes
 - Photos
 - GPS
+- Plot-level slope, aspect, elevation, and canopy cover where configured
 - Auto-save
 
 ### 6.6 Field Navigation
@@ -394,8 +418,11 @@ Support calculations required for the initial beta methodologies, including:
 - Volume
 - Volume / acre
 - Product distribution
+- Mean / standard deviation / coefficient of variation / standard error where applicable
 - Sampling error
 - Confidence interval
+- Required total plots and additional plots needed for target precision
+- Stratified vs. simple sampling performance where applicable
 - Timber value
 
 All calculations must:
@@ -415,7 +442,18 @@ All calculations must:
 - Basic statistical validation
 - Sampling-error status
 
-### 6.9 Timber Pricing & Valuation
+### 6.9 Reconnaissance → Production Design
+
+**Must Have**
+
+- Use reconnaissance plot variability to calculate production sample requirements
+- Let the user select target sampling error and confidence
+- Calculate required total plots
+- Show completed vs. additional plots needed
+- Generate or update a production-cruise design from the reconnaissance results
+- Preserve the reconnaissance data and methodology used to derive the production design
+
+### 6.10 Timber Pricing & Valuation
 
 **Must Have**
 
@@ -427,7 +465,7 @@ All calculations must:
 - Value by stand
 - Total timber value
 
-### 6.10 Reporting
+### 6.11 Reporting
 
 **Must Have**
 
@@ -439,9 +477,10 @@ All calculations must:
 - Cruise methodology
 - Sampling statistics
 - Volume / value
-- TimberForge Score
+- Data quality / cruise confidence
+- No property-use or prescriptive harvest recommendations
 
-### 6.11 Predicted vs. Actual
+### 6.12 Predicted vs. Actual
 
 **Must Have**
 
@@ -465,35 +504,26 @@ a cruise is the basis for a stumpage negotiation, not neutral telemetry. See
 
 ---
 
-## 7. TimberForge Score
+## 7. Product Scope Boundary & Data Confidence
 
-### Purpose
+TimberForge is a professional timber cruising, inventory, valuation, and reporting platform. It reports what is present, how it was measured, what it is worth under stated assumptions, and how precise the estimate is. It does not tell the user what to do with the property.
 
-Provide a standardized summary of the timber asset while keeping underlying forestry metrics transparent.
+### Data Confidence
 
-### Initial Score Dimensions
+Post-cruise confidence is a statistical description of the reliability and precision of the cruise estimate. It must remain separate from LandForge's pre-cruise confidence model, consistent with [`../decisions/0003-pre-and-post-cruise-scoring.md`](../decisions/0003-pre-and-post-cruise-scoring.md).
 
-Potential dimensions:
+Requirements:
 
-- Timber Inventory
-- Timber Value
-- Stand Quality
-- Harvest Readiness
-- Logging Accessibility
-- Mill Market Access
-- Timber Risk
-- Data Confidence
+- Sampling error
+- Confidence interval
+- Plot count
+- Mean, standard deviation, coefficient of variation, and standard error where applicable
+- Additional plots needed for target precision
+- Predicted-vs-measured status
+- Clear methodology / assumptions
+- Plain-language explanation of whether the cruise meets the user's selected precision target
 
-### Requirements
-
-- Score range: 0–100
-- Display total score + component scores
-- Explain major score drivers
-- Preserve underlying metrics
-- Show confidence
-- Do not present score as a substitute for professional judgment
-
-**MVP Note:** Beta may begin with an experimental score before final weighting is locked.
+TimberForge must not transform these metrics into a buy/sell/hold, development, land-use, or harvest recommendation.
 
 ---
 
@@ -508,12 +538,13 @@ Recommended starting point:
 
 Potential next:
 
-- 100% tally
+- 100% tally / measure
+- Tally workflows
 - Sample tree
 - 3P
 - Hybrid methods
 
-Final MVP methods should be confirmed through cruiser interviews.
+Final MVP methods should be confirmed through cruiser interviews. SilvaCruise demonstrates that broader method configuration is useful in a mature product, but competitor breadth alone is not a reason to expand TimberForge's MVP.
 
 ---
 
@@ -534,8 +565,10 @@ Core hierarchy:
 → **Measurement**
 → **Calculated Metrics**
 → **Value**
-→ **TimberForge Score**
+→ **Cruise Confidence**
 → **Report**
+
+Geographic units/stands and sampling strata are distinct concepts. A stand/unit describes physical acreage; a stratum groups similar sampling conditions or products within a cruise design.
 
 Each important field should preserve:
 
@@ -581,6 +614,8 @@ Offline failure is considered a critical product failure.
 - Clear offline / sync state
 - Undo recent action
 - Never lose field data
+
+Setup may be methodologically detailed, but the active field screen should expose only the measurements and actions needed for the current plot/tree.
 
 ---
 
@@ -672,7 +707,8 @@ TimberForge must meet basic expectations established by competitors such as Fore
 - Cruise-planning assistance
 - Real-time QA
 - Predicted-vs-actual comparison
-- TimberForge Score
+- Reconnaissance-to-production sample design
+- Clear, auditable statistical confidence
 - Long-term timber intelligence dataset
 
 ---
@@ -716,7 +752,7 @@ AI must **not silently invent**:
 - Sampling statistics
 - Timber prices
 
-AI-generated content must remain reviewable and editable.
+AI-generated content must remain reviewable and editable. AI may assist a professional with cruise design or explain measured results, but it must not turn TimberForge into a property-use or harvest recommendation engine.
 
 ---
 
@@ -748,8 +784,7 @@ Before development is finalized:
 - Pricing data source
 - GIS / imagery providers
 - LiDAR strategy
-- TimberForge Score formula
-- Score weights
+- Data-confidence presentation
 - Report template
 - Mobile technology
 - Pricing model
@@ -801,7 +836,7 @@ only to the capability roadmap.
 - Finalize pricing
 - Improve reporting
 - Improve pre-cruise intelligence
-- Launch initial TimberForge Score
+- Finalize data-confidence presentation
 
 ### Where the work actually stands
 
@@ -809,7 +844,7 @@ Some of the field app already exists — the tally screen, offline storage, the
 calculation engine. That is **capability Phase 2** work, built before capability
 Phase 1. Phase 1 is the pre-cruise intelligence, and it is the thing that makes
 TimberForge different from an incumbent that already cruises well (§13, and
-`CONTEXT.md:347–358` on cruising commoditising). None of Phase 1 exists.
+`CONTEXT.md` on cruising commoditising). None of Phase 1 exists.
 
 That is not wasted effort, but it means new building should go **backwards into
 Phase 1** rather than forward from what is already there.
@@ -827,7 +862,7 @@ This changes the shape of the tables, not the scope of the MVP.
 
 TimberForge MVP is successful if professional cruisers can:
 
-> **Select a property → understand it before visiting → configure the cruise → collect data reliably offline → calculate professional results → value the timber → create a client-ready report → review a TimberForge Score**
+> **Select a property → understand it before visiting → configure the cruise → collect data reliably offline → calculate professional results → value the timber → create a client-ready report → understand the cruise's statistical confidence**
 
 while materially reducing workflow time compared with their current process.
 
@@ -835,7 +870,7 @@ while materially reducing workflow time compared with their current process.
 
 ## 20. Product Vision
 
-> **TimberForge is the professional timber intelligence platform that connects remote property analysis with real-world timber cruising to help foresters assess, cruise, value, and score timber assets.**
+> **TimberForge is the professional timber intelligence platform that connects remote property analysis with real-world timber cruising so foresters can assess, design, cruise, validate, value, and report timber inventory.**
 
 That is the product this PRD specifies. The longer-term destination — an
 all-in-one operating platform for professional forestry, covering intelligence,
