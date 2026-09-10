@@ -40,8 +40,8 @@ That reframes the prior model's scenarios:
 | Prior "strong platform" | 5,000 | **100–250%** |
 
 The middle row is not a base case. It is a scenario in which TimberForge is
-installed on the device of every consulting forester in America, and Forest
-Metrix — a mature product with real customers — has none. The bottom row is
+installed on the device of every consulting forester in America, and every
+established tool with real customers has none. The bottom row is
 arithmetically impossible within this segment.
 
 **The consulting forester segment cannot produce $3M ARR at any realistic
@@ -65,26 +65,21 @@ So the honest framing of the bet: spend the wedge phase proving the workflow and
 accumulating ground truth, with subscription revenue covering costs rather than
 constituting the outcome. The outcome, if there is one, is in §5.
 
-## 3. Verified competitive anchors
+## 3. Verified market anchors
 
-**Forest Metrix: $1,000/year (Pro), $1,500/year (Pro Plus)** (**verified**).
+**Established professional cruising software: $1,000–$1,500/year** (**verified**).
 This is the most useful number available. A professional forester demonstrably
 pays four figures annually for cruise software, which validates the
 $79–$149/month range the prior analysis proposed. Do not price below this
 without a reason — undercutting an incumbent in a small professional market
 signals inferiority more often than it wins deals.
 
-**CruiseComp claims "over 90% of the British Columbia forest industry"**
-(**verified as a claim**, on cruisecomp.ca — it is vendor marketing, not an
-independent measurement, and should be cited that way).
-
-More important, and missed by the prior analysis: **CruiseComp already ships the
-field layer.** Their stack is Cruiser Tablet (field collection) → CruiseComp
-compilation → Interior Appraisal (stumpage). The recommendation to enter BC as
-"the modern field layer that exports into CruiseComp" therefore proposes
-competing with CruiseComp's own handheld for the right to feed CruiseComp's
-compiler. That is a worse position than the analysis suggests. **Canada should
-come off the roadmap entirely for now**, not sit at Phase 4.
+**In British Columbia, one incumbent claims over 90% of the industry** (a vendor
+claim, not an independent measurement) and already ships field collection,
+compilation and stumpage appraisal as one stack. Entering BC as "the modern field
+layer" would mean competing with the incumbent's own handheld for the right to
+feed its compiler. That is a worse position than the prior analysis suggested.
+**Canada should come off the roadmap entirely for now**, not sit at Phase 4.
 
 **Southern stumpage, Q4 2025** (**verified**, TimberMart-South via Southern Ag
 Today): pine sawtimber $23.23/ton, down ~6% YoY and ~10% from the early-2022
@@ -235,10 +230,6 @@ few weeks rather than a year.
 
 ## Sources
 
-- [Forest Metrix pricing — Capterra](https://www.capterra.com/p/221156/Forest-Metrix/pricing/)
-- [Forest Metrix](https://forestmetrix.com/)
-- [CruiseComp](https://www.cruisecomp.ca/) · [Cruiser Desktop](https://www.cruisecomp.ca/cruiserdesktop/) · [Cruiser Tablet](https://www.cruisecomp.ca/cruiser/)
-- [BC Cruise Compilation Manual](https://www2.gov.bc.ca/gov/content/industry/forestry/competitive-forest-industry/timber-pricing/timber-cruising/cruise-compilation-manual)
 - [Pine Sawtimber Prices Soften as Pine Pulpwood Continues to Fall — Southern Ag Today, Jan 2026](https://southernagtoday.org/2026/01/26/pine-sawtimber-prices-soften-as-pine-pulpwood-continues-to-fall/)
 - [TimberMart-South state stumpage prices](https://timbermart-south.com/resources/state-stumpage-prices/)
 - [Association of Consulting Foresters — membership](https://www.acf-foresters.org/membership)

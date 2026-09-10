@@ -66,7 +66,11 @@ cohort silently degrades it.
 ## 3. Where the differentiation actually is
 
 Not the tally form. Basic field-cruise functionality is commoditizing
-(`CONTEXT.md:347–358`), and several products already do it well.
+(`CONTEXT.md` §8), and several products already do it well.
+
+Nor is it post-recon cruise design. Measuring CV from recon plots, solving n = (t × CV / E)²
+and generating a production cruise is **table stakes** (`CONTEXT.md` §9). Predicting variability
+*before* anyone walks the tract is not, and that is the version of the claim worth making.
 
 The differentiation sits **before and after** the physical cruise.
 

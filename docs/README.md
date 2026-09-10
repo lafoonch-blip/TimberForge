@@ -30,7 +30,6 @@ from this repository, so nothing here can prove LandForge hasn't changed.
 | [`domain/`](domain/) | [Forestry glossary](domain/GLOSSARY.md) | TimberForge |
 | [`product/`](product/) | PRD (what ships), VISION (where it's going), strategy reconciliation, context, branding | TimberForge |
 | [`logo-concepts/`](logo-concepts/) | Logo *exploration* — concepts and SVG variants | TimberForge |
-| [`reference/`](reference/) | Source PDFs and background material | External |
 
 The architecture decision document, [`../FOUNDATION.md`](../FOUNDATION.md), is at
 the repository root rather than in here, because it is the thing you read first

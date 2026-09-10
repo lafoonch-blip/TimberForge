@@ -68,7 +68,7 @@ deliberately separate products with separate repositories.
 - `docs/product/PRD.md` — what ships
 - `docs/product/VISION.md` — the long-term destination
 - `docs/product/STRATEGY_RECONCILIATION.md` — open conflicts awaiting my decision
-- `docs/product/CONTEXT.md` — background, workflow, competitors, data model
+- `docs/product/CONTEXT.md` — background, workflow, market takeaways, data model
 - `docs/decisions/` — the eight architecture decision records
 - `docs/market/` — business case, interview kit, forester outreach list
 - `docs/integration/OPEN_QUESTIONS.md` — unanswered questions, meant to shrink

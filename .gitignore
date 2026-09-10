@@ -25,3 +25,7 @@ _local/
 /*.pages
 /*.numbers
 /*.key
+
+# Reference material and competitor notes stay on this machine. Screenshots,
+# third-party docs and our competitor teardowns are never committed or published.
+docs/market/competitors/

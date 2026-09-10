@@ -70,7 +70,7 @@ TimberForge should unify these activities into one workflow while adding pre-cru
 
 ### Non-Goals for MVP
 
-- Replace every feature in Forest Metrix, TCruise, or FScruiser.
+- Match every feature of existing cruising software.
 - Support every cruise methodology on launch.
 - Fully automate professional forestry judgment.
 - Replace a licensed/qualified forester.
@@ -544,7 +544,7 @@ Potential next:
 - 3P
 - Hybrid methods
 
-Final MVP methods should be confirmed through cruiser interviews. SilvaCruise demonstrates that broader method configuration is useful in a mature product, but competitor breadth alone is not a reason to expand TimberForge's MVP.
+Final MVP methods should be confirmed through cruiser interviews. Broader method configuration is useful in a mature product, but breadth alone is not a reason to expand TimberForge's MVP.
 
 ---
 
@@ -685,9 +685,10 @@ Each participant should:
 
 ---
 
-## 13. Competitive Requirements
+## 13. Market Requirements
 
-TimberForge must meet basic expectations established by competitors such as Forest Metrix and newer tools.
+TimberForge must meet the basic expectations foresters already have of cruising software.
+Background: `CONTEXT.md` §7–§8.
 
 ### Table Stakes
 
@@ -698,18 +699,27 @@ TimberForge must meet basic expectations established by competitors such as Fore
 - Sampling calculations
 - Volume calculations
 - Professional reporting
+- CSV export
+- Post-recon sample-size calculation and cruise design
+- Stratified sampling error and per-stratum statistics
 
 ### TimberForge Differentiators
 
 - Pre-cruise parcel intelligence
 - Remote stand analysis
 - Preliminary timber estimate
-- Cruise-planning assistance
+- Cruise-planning assistance — **pre-cruise only**; the post-recon version is table stakes
 - Real-time QA
 - Predicted-vs-actual comparison
 - Reconnaissance-to-production sample design
 - Clear, auditable statistical confidence
 - Long-term timber intelligence dataset
+
+### Positioning
+
+> "TimberForge starts when you select the property, not when you create the cruise."
+
+Full positioning statement and the honest caveats behind it: `CONTEXT.md` §9.
 
 ---
 
@@ -806,7 +816,7 @@ only to the capability roadmap.
 - 15–20 consulting-forester interviews (see §12 for the gate; not 10–20)
 - A clickable prototype, shown **after** discussing the forester's current
   workflow, never before
-- Competitor benchmark
+- Table-stakes check against forester expectations
 - Workflow mapping
 - Validate MVP cruise methods
 

@@ -81,9 +81,9 @@ exercise.**
 
 **Q3. What do you use now, and what does it cost you?**
 
-Forest Metrix, MobileMap, FScruiser, SuperACE, Excel, paper, something custom?
-Get the actual annual figure. Compare against the verified anchors: Forest
-Metrix is $1,000/yr Pro, $1,500/yr Pro Plus.
+Cruising software, a spreadsheet, paper, something custom? Get the product
+name and the actual annual figure. Compare against the verified anchor:
+established professional tools run $1,000–$1,500/yr.
 
 Then: **what do you dislike about it?** And critically — **have you ever tried
 to switch? What happened?** A history of failed switching attempts tells you far
@@ -221,7 +221,6 @@ better research method and the better first impression.
 
 ## Sources
 
-- [Forest Metrix pricing — Capterra](https://www.capterra.com/p/221156/Forest-Metrix/pricing/)
 - [Virginia DOF Private Consulting Forester Directory](https://dof.virginia.gov/forest-management-health/landowner-assistance/find-a-forester/private-forestry-consultant-directory/view/all/)
 - [West Virginia consulting forester list (PDF)](https://wvforestry.com/pdf/Private_Consulting_Foresters.pdf)
 - [Pine Sawtimber Prices Soften as Pine Pulpwood Continues to Fall — Southern Ag Today](https://southernagtoday.org/2026/01/26/pine-sawtimber-prices-soften-as-pine-pulpwood-continues-to-fall/)

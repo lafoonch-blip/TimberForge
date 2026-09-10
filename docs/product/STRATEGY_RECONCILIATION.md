@@ -64,9 +64,9 @@ both documents in the repository asserting different things.
 TimberForge as timber cruising, intelligence and valuation. No inventory
 management, no persistent forest asset, no mobile GIS, no enterprise layer.
 
-**Careful reading matters here.** `PRD.md:58` ("Replace every feature in Forest
-Metrix, TCruise, or FScruiser") and `CONTEXT.md:519` ("Do **not** try to rebuild
-Forest Metrix feature-for-feature") are scoped to **MVP** and remain correct.
+**Careful reading matters here.** the PRD non-goal ("Match every feature of existing
+cruising software") and the CONTEXT §13 guardrail ("Do **not** try to rebuild
+existing cruising software feature-for-feature") are scoped to **MVP** and remain correct.
 Only the unbounded vision sentences conflict. Fixed by pointing them at
 [`VISION.md`](VISION.md), not by deleting the guardrails.
 
@@ -257,8 +257,8 @@ field-cruise functionality is becoming commoditized," and `CONTEXT.md:386–392`
 ("should not position itself as a nicer timber tally app"). The new direction
 asserts that cruising is not the differentiator; these lines are the evidence.
 
-**4.9 Verified competitor pricing.** `CONTEXT.md:336–338` — Forest Metrix
-$1,000/yr Pro, $1,500/yr Pro Plus. The only hard price anchor.
+**4.9 Verified price anchor.** Established professional cruising tools sit around
+$1,000–$1,500 per year (`CONTEXT.md` §8). The only hard price anchor.
 
 **4.10 Predicted and measured must be stored separately.** `CONTEXT.md:455–464`,
 `PRD.md:518–525`. This is the schema-level mechanism that makes the ground-truth
@@ -294,8 +294,7 @@ capability roadmap in `VISION.md` §7. The interview count disagreement
 
 ## 6. Gaps — net-new content, nothing to contradict
 
-Searched: neither document mentions **ArcGIS, Esri, shapefile, MobileMap Cruise,
-or InventoryManager** anywhere. §13's position (Pro needs no ArcGIS; Enterprise
+Searched: neither document mentions **ArcGIS, Esri or shapefile** anywhere. §13's position (Pro needs no ArcGIS; Enterprise
 integrates bidirectionally; ArcGIS remains the enterprise system of record) is
 purely additive.
 
