@@ -32,6 +32,8 @@ Numbering is sequential and permanent. Numbers are never reused.
 | [0006](0006-cruise-data-rights.md) | Cruise data is held in custody; ground-truth learning is opt-in and derived-features only | Accepted, implementation pending |
 | [0007](0007-landforge-metrics-surface.md) | Push-back and learning are separate objects; opt-in is per-custodian, stamped on the cruise | Accepted, implementation pending |
 | [0008](0008-persistent-forest-assets.md) | Properties and stands persist; a cruise is an event that measures them | Accepted, **schema change pending — cost rises after first deployment** |
+| [0009](0009-stratum-as-first-class-entity.md) | Stratum is a first-class entity | Accepted |
+| [0010](0010-timberforge-owns-timber-predictions.md) | TimberForge is the source of truth for timber predictions; LandForge reads them | Accepted, implementation pending |
 
 ## Related
 

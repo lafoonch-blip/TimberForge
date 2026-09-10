@@ -1,5 +1,7 @@
 # 0003 — Pre-cruise and post-cruise scoring stay separate
 
+> **Partially superseded by [0010](0010-timberforge-owns-timber-predictions.md):** the two scores still stay separate, but TimberForge, not LandForge, now computes the pre-cruise timber estimate.
+
 **Status:** Accepted · **Date:** 2026-09-07 · **Decided by:** Shayne
 
 ## Decision
