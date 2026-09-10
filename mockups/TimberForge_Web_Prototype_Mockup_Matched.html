@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TimberForge Web Prototype — Mockup Matched</title>
+<style>
+:root{
+ --forest:#06251f;--forest2:#0a3028;--forest3:#103c32;--line:#d9e2dc;--ink:#1b2b25;
+ --muted:#6f8078;--paper:#f6f8f5;--white:#fff;--green:#78d388;--green2:#9ee69c;
+ --soft:#e8f2ea;--warn:#f2d97d;--red:#df8a76;--shadow:0 12px 30px rgba(8,35,29,.14)
+}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif;background:#07231e;color:#fff}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+#login{min-height:100vh;display:grid;grid-template-columns:1fr 1fr}
+.login-left{background:linear-gradient(rgba(4,28,23,.45),rgba(4,28,23,.88)),radial-gradient(circle at 55% 35%,#385f4d,#15372f 55%,#09251f);padding:64px;display:flex;flex-direction:column;justify-content:space-between}
+.login-right{background:#f5f7f4;display:flex;align-items:center;justify-content:center;padding:48px;color:#17251f}
+.brand{display:flex;align-items:center;gap:10px}.treeLogo{width:34px;height:42px;position:relative}.treeLogo:before,.treeLogo:after{content:"";position:absolute;left:50%;transform:translateX(-50%);clip-path:polygon(50% 0,100% 100%,0 100%);background:linear-gradient(#a6ee9e,#61b979)}.treeLogo:before{width:32px;height:28px;top:0}.treeLogo:after{width:26px;height:25px;top:13px}.treeLogo i{position:absolute;width:5px;height:16px;background:#6ec27d;left:14px;bottom:0;border-radius:3px}
+.wordmark{font-size:28px;font-weight:850;letter-spacing:-1px}.wordmark span{color:#74ca88}.tag{font-size:8px;letter-spacing:3px;color:#cfe0d8}
+.login-card{width:min(420px,100%)}.login-card h1{font-size:38px;margin:0 0 8px}.muted{color:var(--muted)}
+.field{margin:12px 0}.field label{display:block;font-size:11px;font-weight:800;color:#61766d;margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}.field input,.field select,.field textarea{width:100%;border:1px solid #cad6ce;border-radius:8px;padding:11px;background:#fff;color:#1a2923}.field textarea{min-height:88px}
+.btn{border:0;background:var(--green);color:#11331d;border-radius:7px;padding:10px 14px;font-weight:800}.btn.secondary{background:#e6ece7;color:#20352d}.btn.outline{background:#fff;border:1px solid #c9d6ce}.btn.dark{background:#173c33;color:#fff}.btn.sm{padding:7px 10px;font-size:12px}
+.oauth{width:100%;background:#fff;border:1px solid #ccd7d0;padding:11px;border-radius:8px;font-weight:750;margin:6px 0}
+.app{display:none;min-height:100vh;background:#edf1ed;color:var(--ink)}
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:76px;background:#06251f;border-right:1px solid #163e34;padding:12px 10px;z-index:50}
+.sidebrand{display:grid;place-items:center;margin:4px 0 22px}.sidebrand .treeLogo{transform:scale(.85)}
+.navbtn{width:54px;height:52px;border:0;border-radius:9px;background:transparent;color:#a9c3b8;margin:4px 0;font-size:20px}.navbtn:hover,.navbtn.active{background:#174138;color:#97e095}
+.topbar{position:fixed;left:76px;right:0;top:0;height:56px;background:#0a2c25;color:white;border-bottom:1px solid #204a3f;display:flex;align-items:center;padding:0 18px;z-index:40;gap:14px}
+.topbrand{font-size:13px;font-weight:800;color:#aee6b2}.topsearch{flex:1;max-width:550px;background:#143b32;border:1px solid #28594a;color:white;border-radius:7px;padding:8px 10px}.avatar{width:28px;height:28px;border-radius:50%;background:#e8efea;color:#163128;display:grid;place-items:center;font-size:11px;font-weight:850}
+.workspace{margin-left:76px;padding-top:56px}.view{display:none;padding:18px}.view.active{display:block}
+.pagehead{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px}.pagehead h1{font-size:22px;margin:0 0 3px}.sub{font-size:12px;color:#6f8078}
+.panel{background:#fff;border:1px solid #d8e1db;border-radius:8px;box-shadow:var(--shadow);overflow:hidden}.pad{padding:14px}
+.tabs{display:flex;gap:18px;border-bottom:1px solid #e1e7e3;padding:0 14px;background:#fff}.tab{border:0;background:transparent;padding:11px 0 9px;color:#687b72;font-size:12px}.tab.active{color:#173a2f;font-weight:850;border-bottom:3px solid #69ca78}
+.grid2{display:grid;grid-template-columns:1.15fr .85fr;gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.map{min-height:390px;position:relative;overflow:hidden;background:
+radial-gradient(circle at 28% 24%,rgba(177,228,139,.35),transparent 20%),
+radial-gradient(circle at 76% 58%,rgba(96,156,104,.45),transparent 28%),
+linear-gradient(145deg,#59745c,#345b47 50%,#1f473a)}
+.map:after{content:"";position:absolute;inset:0;background-image:linear-gradient(35deg,rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(125deg,rgba(255,255,255,.03) 1px,transparent 1px);background-size:22px 22px}
+.boundary{position:absolute;z-index:2;left:14%;right:12%;top:12%;bottom:13%;border:3px solid #f0f8ec;border-radius:28% 40% 31% 37%;transform:rotate(-3deg)}
+.s{position:absolute;z-index:4;color:#153025;font-weight:900;display:grid;place-items:center;border:2px solid rgba(255,255,255,.92)}
+.s1{left:17%;top:19%;width:32%;height:30%;background:rgba(135,215,115,.78);clip-path:polygon(7% 14%,75% 0,100% 42%,74% 100%,15% 82%,0 48%)}
+.s2{left:36%;top:43%;width:31%;height:31%;background:rgba(224,193,89,.72);clip-path:polygon(12% 0,100% 14%,88% 90%,41% 100%,0 62%)}
+.s3{left:61%;top:18%;width:27%;height:43%;background:rgba(199,117,99,.66);clip-path:polygon(10% 10%,74% 0,100% 34%,86% 94%,25% 100%,0 65%)}
+.plot{position:absolute;z-index:5;width:24px;height:24px;border-radius:50%;background:#a4ef9e;border:2px solid white;color:#14301f;font-size:10px;font-weight:900;display:grid;place-items:center}
+.p1{left:23%;top:29%}.p2{left:32%;top:40%}.p3{left:48%;top:51%}.p4{left:56%;top:65%}.p5{left:70%;top:31%}.p6{left:78%;top:47%}
+.kv{width:100%;border-collapse:collapse}.kv td{padding:8px 0;border-bottom:1px solid #e7ece8;font-size:12px}.kv td:last-child{text-align:right;font-weight:750}
+.table{width:100%;border-collapse:collapse}.table th{font-size:10px;text-transform:uppercase;color:#70837a;text-align:left;padding:9px;border-bottom:1px solid #dce4de}.table td{padding:9px;border-bottom:1px solid #e7ece8;font-size:12px}
+.cardgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.metric{background:#fff;border:1px solid #d8e2dc;border-radius:8px;padding:12px}.metric .n{font-size:22px;font-weight:850}
+.hier{background:#0f342c;border:1px solid #285145;color:#d7e7df;border-radius:8px;padding:10px 12px;font-size:12px;margin-bottom:12px}.hier b{color:#9ae39a}
+.notice{background:#e7f0fa;color:#33546f;border:1px solid #c8dbed;border-radius:7px;padding:10px;font-size:12px}
+.choice{display:grid;grid-template-columns:1fr 1fr;gap:8px}.choice button{border:1px solid #cad7cf;background:#f8faf8;border-radius:7px;padding:12px;text-align:left}.choice button.active{border:2px solid #75cd82;background:#edf8ee}
+.progress{height:7px;background:#e1e8e3;border-radius:10px;overflow:hidden}.progress i{height:100%;display:block;background:#69ca79}
+@media(max-width:950px){#login{grid-template-columns:1fr}.login-left{display:none}.grid2,.grid3,.cardgrid{grid-template-columns:1fr}.sidebar{width:60px}.topbar{left:60px}.workspace{margin-left:60px}}
+</style>
+</head>
+<body>
+<div id="login">
+<section class="login-left">
+ <div class="brand"><div class="treeLogo"><i></i></div><div><div class="wordmark" style="font-size:42px">Timber<span>Forge</span></div><div class="tag" style="font-size:10px">KNOW YOUR FOREST</div></div></div>
+ <div><h1 style="font-size:45px;max-width:650px;margin:0">Professional timber intelligence.<br>In the field and beyond.</h1><p style="color:#c2d3cb">Map. Plan. Cruise. Analyze. Deliver.</p></div>
+ <div style="color:#8eaea1">Accurate Data. Confident Decisions. Healthier Forests.</div>
+</section>
+<section class="login-right"><div class="login-card"><h1>Welcome Back</h1><p class="muted">Sign in to continue to TimberForge.</p><button class="oauth" onclick="enter()">Continue with Google</button><button class="oauth" onclick="enter()">Continue with Microsoft</button><div class="field"><label>Email</label><input value="forester@timberforge.app"></div><div class="field"><label>Password</label><input type="password" value="password"></div><button class="btn" style="width:100%" onclick="enter()">Sign In</button></div></section>
+</div>
+
+<div id="app" class="app">
+<aside class="sidebar">
+ <div class="sidebrand"><div class="treeLogo"><i></i></div></div>
+ <button class="navbtn" data-go="dashboard" title="Dashboard">⌂</button>
+ <button class="navbtn" data-go="properties" title="Properties">▧</button>
+ <button class="navbtn" data-go="cruises" title="Cruises">◉</button>
+ <button class="navbtn" data-go="plotEntry" title="Field">⌖</button>
+ <button class="navbtn" data-go="analytics" title="Analytics">▥</button>
+ <button class="navbtn" data-go="report" title="Reports">▤</button>
+</aside>
+<header class="topbar"><div class="topbrand">🌲 TimberForge</div><input class="topsearch" placeholder="Search properties, cruises, stands, plots…"><div style="margin-left:auto">Carlton L.</div><div class="avatar">CL</div></header>
+
+<div class="workspace">
+
+<section id="dashboard" class="view">
+ <div class="pagehead"><div><h1>Dashboard</h1><div class="sub">Active work and recent activity</div></div><button class="btn" onclick="go('addProperty')">+ Add Property</button></div>
+ <div class="cardgrid"><div class="metric"><div class="sub">Properties</div><div class="n">4</div></div><div class="metric"><div class="sub">Active Cruises</div><div class="n">2</div></div><div class="metric"><div class="sub">Plots Complete</div><div class="n">31</div></div><div class="metric"><div class="sub">Cruise Progress</div><div class="n">58%</div></div></div>
+ <div class="grid2" style="margin-top:12px"><div class="panel"><div class="pad"><h3>Pine Ridge 2026</h3><p class="sub">Recon cruise • 3 stands • 34 planned plots</p><div class="progress"><i style="width:58%"></i></div><div style="margin-top:12px"><button class="btn sm" onclick="go('cruiseDetail')">Open Cruise</button></div></div></div><div class="panel"><div class="pad"><h3>Pine Ridge</h3><p class="sub">245 acres • Prince Edward County, VA</p><button class="btn secondary sm" onclick="go('property')">View Property</button></div></div></div>
+</section>
+
+<section id="properties" class="view">
+ <div class="pagehead"><div><h1>Properties</h1><div class="sub">Manage timber properties and parcel intelligence</div></div><button class="btn" onclick="go('addProperty')">+ Add Property</button></div>
+ <div class="panel"><table class="table"><thead><tr><th>Property</th><th>County</th><th>Acres</th><th>Region</th><th>Forest Cover</th><th></th></tr></thead><tbody><tr><td><b>Pine Ridge</b><div class="sub">1234 Forest Road, Farmville, VA</div></td><td>Prince Edward</td><td>245</td><td>Southeast — Piedmont</td><td>87%</td><td><button class="btn secondary sm" onclick="go('property')">Open</button></td></tr><tr><td><b>Oak Hill</b></td><td>Nottoway</td><td>180</td><td>Southeast — Piedmont</td><td>81%</td><td><button class="btn secondary sm">Open</button></td></tr></tbody></table></div>
+</section>
+
+<section id="addProperty" class="view">
+ <div class="pagehead"><div><h1>Add Property</h1><div class="sub">Search by address or parcel ID</div></div></div>
+ <div class="grid2">
+  <div class="panel"><div class="tabs"><button id="addrT" class="tab active" onclick="mode('address')">Search by Address</button><button id="parcelT" class="tab" onclick="mode('parcel')">Search by Parcel ID</button></div><div class="pad"><div class="field"><label id="searchLabel">Property Address</label><input id="searchInput" value="1234 Forest Road, Farmville, VA"></div><button class="btn" onclick="go('propertyFound')">Search Property</button></div></div>
+  <div class="panel"><div class="pad"><h3>Automatic setup</h3><p class="sub">After locating the parcel, TimberForge automatically determines the region and loads existing LandForge property intelligence.</p><div class="notice">Region selection is not a required setup step. It is inferred from the parcel and remains editable.</div></div></div>
+ </div>
+</section>
+
+<section id="propertyFound" class="view">
+ <div class="pagehead"><div><h1>Property Found</h1><div class="sub">Pine Ridge • 245 acres • Prince Edward County, VA</div></div><button class="btn" onclick="go('property')">Continue</button></div>
+ <div class="grid2"><div class="panel"><div class="map"><div class="boundary"></div></div></div><div class="panel"><div class="pad"><h3>Property loaded successfully</h3><table class="kv"><tr><td>Parcel data</td><td>✓ Loaded</td></tr><tr><td>Region</td><td>Southeast — Piedmont</td></tr><tr><td>Forest cover</td><td>87%</td></tr><tr><td>Primary forest type</td><td>Loblolly Pine</td></tr><tr><td>Topography</td><td>Gently Rolling</td></tr><tr><td>Access</td><td>Good</td></tr></table></div></div></div>
+</section>
+
+<section id="property" class="view">
+ <div class="pagehead"><div><h1>Pine Ridge</h1><div class="sub">245 acres • Prince Edward County, VA</div></div><button class="btn" onclick="go('createCruise')">Create Cruise</button></div>
+ <div class="tabs"><button class="tab active">Overview</button><button class="tab">Map</button><button class="tab">Stands</button><button class="tab">Data</button><button class="tab" onclick="go('assumptions')">Assumptions</button></div>
+ <div class="grid2" style="margin-top:12px"><div class="panel"><div class="map"><div class="boundary"></div></div></div><div class="panel"><div class="pad"><h3>Property Intelligence</h3><table class="kv"><tr><td>Total Acres</td><td>245</td></tr><tr><td>Forest Cover</td><td>87%</td></tr><tr><td>Primary Forest Type</td><td>Loblolly Pine</td></tr><tr><td>Region</td><td>Southeast — Piedmont</td></tr><tr><td>Topography</td><td>Gently Rolling</td></tr><tr><td>Access</td><td>Good</td></tr></table></div></div></div>
+</section>
+
+<section id="assumptions" class="view">
+ <div class="pagehead"><div><h1>Region & Assumptions</h1><div class="sub">Automatically set based on location</div></div><button class="btn" onclick="go('createCruise')">Create Cruise</button></div>
+ <div class="panel"><div class="pad"><div class="notice"><b>Detected region:</b> Southeast — Piedmont. Assumptions below were auto-selected from the parcel location and can be edited.</div><table class="table" style="margin-top:10px"><thead><tr><th>Assumption</th><th>Default</th><th></th></tr></thead><tbody><tr><td>Primary Species</td><td>Loblolly Pine</td><td><a>Edit</a></td></tr><tr><td>Volume Equations</td><td>Southern</td><td><a>Edit</a></td></tr><tr><td>Merchantability</td><td>Regional Default</td><td><a>Edit</a></td></tr><tr><td>Product Classes</td><td>Sawtimber, Pulpwood</td><td><a>Edit</a></td></tr><tr><td>Stumpage Prices</td><td>VA Q3 2026</td><td><a>Edit</a></td></tr></tbody></table></div></div>
+</section>
+
+<section id="createCruise" class="view">
+ <div class="pagehead"><div><h1>Create Cruise</h1><div class="sub">Auto-plan or build manually</div></div></div>
+ <div class="panel"><div class="tabs"><button id="autoPlanTab" class="tab active" onclick="planMode('auto')">Auto-Plan (Recommended)</button><button id="manualPlanTab" class="tab" onclick="planMode('manual')">Build Manually</button></div><div class="pad"><div class="grid2"><div><div class="field"><label>Cruise Name</label><input value="Pine Ridge 2026"></div><div class="field"><label>Cruise Type</label><select><option>Recon Cruise</option><option>Production Cruise</option></select></div><div class="field"><label>Target Confidence Level</label><select><option>95%</option><option>90%</option></select></div><div class="field"><label>Target Sampling Error</label><select><option>±15%</option><option>±10%</option><option>±20%</option></select></div><button id="planBtn" class="btn" onclick="go('autoPlan')">Generate Cruise Plan</button></div><div><div class="hier"><b>Hierarchy</b><br>Cruise → Stands → Plots</div><div class="notice">TimberForge can generate an editable first draft. The forester can accept it, customize it, or build the entire structure manually.</div></div></div></div></div>
+</section>
+
+<section id="autoPlan" class="view">
+ <div class="pagehead"><div><h1>Auto-Plan Results</h1><div class="sub">Suggested cruise structure generated from property intelligence</div></div></div>
+ <div class="grid2"><div class="panel"><div class="pad"><h3>TimberForge Suggested Plan</h3><table class="kv"><tr><td>Stands Detected</td><td>3</td></tr><tr><td>Recon Plots</td><td>12</td></tr><tr><td>Sampling Method</td><td>Variable Radius</td></tr><tr><td>BAF</td><td>20</td></tr></table><h4>Why this plan?</h4><ul style="font-size:12px;color:#5f736a"><li>Stand variability inferred from imagery and forest intelligence</li><li>Typical recon density for the detected forest structure</li><li>Terrain and access considered in the initial layout</li></ul><button class="btn" onclick="go('cruiseDetail')">Accept Plan</button> <button class="btn secondary" onclick="go('stands')">Customize Plan</button></div></div><div class="panel"><div class="map"><div class="s s1">S1</div><div class="s s2">S2</div><div class="s s3">S3</div></div></div></div>
+</section>
+
+<section id="stands" class="view">
+ <div class="pagehead"><div><h1>Stands (3)</h1><div class="sub">Edit the cruise structure before field work</div></div><button class="btn" onclick="go('cruiseDetail')">Save Stands</button></div>
+ <div class="grid2"><div class="panel"><div class="pad"><table class="table"><thead><tr><th>Stand</th><th>Acres</th><th>Forest Type</th><th>Plots</th><th></th></tr></thead><tbody><tr><td><b>Stand 1</b></td><td>92</td><td>Loblolly Pine</td><td>12</td><td><button class="btn secondary sm" onclick="go('standDetail')">Open</button></td></tr><tr><td><b>Stand 2</b></td><td>78</td><td>Mixed Pine/Hardwood</td><td>14</td><td><button class="btn secondary sm">Open</button></td></tr><tr><td><b>Stand 3</b></td><td>75</td><td>Hardwood</td><td>8</td><td><button class="btn secondary sm">Open</button></td></tr></tbody></table><button class="btn secondary sm">+ Add Stand</button> <button class="btn secondary sm">Split</button> <button class="btn secondary sm">Merge</button></div></div><div class="panel"><div class="map"><div class="s s1">S1</div><div class="s s2">S2</div><div class="s s3">S3</div></div></div></div>
+</section>
+
+<section id="cruises" class="view">
+ <div class="pagehead"><div><h1>Cruises</h1><div class="sub">Cruise → Stand → Plot</div></div></div>
+ <div class="panel"><table class="table"><thead><tr><th>Cruise</th><th>Property</th><th>Stands</th><th>Total Plots</th><th>Status</th><th></th></tr></thead><tbody><tr><td><b>Pine Ridge 2026</b></td><td>Pine Ridge</td><td>3</td><td>34</td><td>In Progress</td><td><button class="btn secondary sm" onclick="go('cruiseDetail')">Open</button></td></tr></tbody></table></div>
+</section>
+
+<section id="cruiseDetail" class="view">
+ <div class="pagehead"><div><h1>Pine Ridge 2026</h1><div class="sub">Recon Cruise • 245 acres • 3 stands • 34 plots</div></div><button class="btn secondary" onclick="go('stands')">Edit Stands</button></div>
+ <div class="tabs"><button class="tab active">Overview</button><button class="tab">Stands</button><button class="tab">Plots</button><button class="tab">Progress</button><button class="tab">QA</button><button class="tab">Stats</button></div>
+ <div class="hier" style="margin-top:12px"><b>Cruise:</b> Pine Ridge 2026 → <b>3 Stands</b> → <b>34 Plots</b></div>
+ <div class="panel"><table class="table"><thead><tr><th>Stand</th><th>Acres</th><th>Method</th><th>Plots</th><th>Completed</th><th></th></tr></thead><tbody><tr><td><b>Stand 1</b></td><td>92</td><td>Variable Radius • BAF 20</td><td>12</td><td>12/12</td><td><button class="btn secondary sm" onclick="go('standDetail')">Open</button></td></tr><tr><td><b>Stand 2</b></td><td>78</td><td>Variable Radius • BAF 20</td><td>14</td><td>6/14</td><td><button class="btn secondary sm">Open</button></td></tr><tr><td><b>Stand 3</b></td><td>75</td><td>Variable Radius • BAF 20</td><td>8</td><td>0/8</td><td><button class="btn secondary sm">Open</button></td></tr></tbody></table></div>
+</section>
+
+<section id="standDetail" class="view">
+ <div class="pagehead"><div><h1>Stand 1</h1><div class="sub">92 acres • Loblolly Pine • 12 plots</div></div><button class="btn" onclick="go('plotMap')">View Plot Map</button></div>
+ <div class="tabs"><button class="tab active">Overview</button><button class="tab">Plots</button><button class="tab">Histogram</button><button class="tab">Notes</button></div>
+ <div class="panel" style="margin-top:12px"><table class="table"><thead><tr><th>Plot ID</th><th>Status</th><th>Method</th><th>BAF</th><th>Trees</th><th></th></tr></thead><tbody id="plotRows"></tbody></table></div>
+</section>
+
+<section id="plotMap" class="view">
+ <div class="pagehead"><div><h1>Plot Locations — Stand 1</h1><div class="sub">Manage plot locations inside the selected stand</div></div></div>
+ <div class="grid2"><div class="panel"><div class="map"><div class="boundary"></div><div class="plot p1">P1</div><div class="plot p2">P2</div><div class="plot p3">P3</div><div class="plot p4">P4</div><div class="plot p5">P5</div><div class="plot p6">P6</div></div></div><div class="panel"><div class="pad"><h3>Plot P1</h3><div class="field"><label>Status</label><select><option>Planned</option></select></div><div class="field"><label>Latitude</label><input value="37.125456"></div><div class="field"><label>Longitude</label><input value="-78.125456"></div><div class="field"><label>Method</label><select><option>Variable Radius</option></select></div><div class="field"><label>BAF</label><input value="20"></div><button class="btn" onclick="go('plotEntry')">Open Plot</button></div></div></div>
+</section>
+
+<section id="plotEntry" class="view">
+ <div class="pagehead"><div><h1>Plot P1 — Field Data Entry</h1><div class="sub">Cruise: Pine Ridge 2026 • Stand 1 • Plot P1</div></div><button class="btn secondary" onclick="go('qa')">Run QA</button></div>
+ <div class="grid2"><div class="panel"><div class="pad"><h3>Tree List</h3><table class="table"><thead><tr><th>#</th><th>Species</th><th>DBH</th><th>Height</th><th>Product</th></tr></thead><tbody id="treeRows"></tbody></table></div></div><div class="panel"><div class="pad"><h3>Add Tree</h3><div class="field"><label>Species</label><select id="species"><option>Loblolly Pine</option><option>Sweetgum</option><option>Red Maple</option></select></div><div class="field"><label>DBH (in)</label><input id="dbh" value="14.2"></div><div class="field"><label>Total Height (ft)</label><input id="height" value="85"></div><div class="field"><label>Product</label><select id="product"><option>Sawtimber</option><option>Pulpwood</option></select></div><button class="btn" onclick="addTree()">Add Tree</button></div></div></div>
+</section>
+
+<section id="qa" class="view">
+ <div class="pagehead"><div><h1>Live QA</h1><div class="sub">Validate field data before moving on</div></div></div>
+ <div class="cardgrid"><div class="metric"><div class="sub">Trees Recorded</div><div class="n" id="treeCount">5</div></div><div class="metric"><div class="sub">Basal Area</div><div class="n">118</div></div><div class="metric"><div class="sub">Avg. DBH</div><div class="n">14.6</div></div><div class="metric"><div class="sub">Species Mix</div><div class="n">92%</div></div></div>
+ <div class="panel" style="margin-top:12px"><div class="pad"><h3 style="color:#2c8d48">✓ All Good!</h3><p class="sub">Your plot data is within expected ranges for this stand.</p><button class="btn" onclick="go('analytics')">Continue</button></div></div>
+</section>
+
+<section id="analytics" class="view">
+ <div class="pagehead"><div><h1>Pine Ridge 2026 — Progress & Statistics</h1><div class="sub">Recon results inform production requirements</div></div></div>
+ <div class="cardgrid"><div class="metric"><div class="sub">Total Acres</div><div class="n">245</div></div><div class="metric"><div class="sub">Plots Completed</div><div class="n">18</div></div><div class="metric"><div class="sub">Total Plots</div><div class="n">31</div></div><div class="metric"><div class="sub">Complete</div><div class="n">58%</div></div></div>
+ <div class="grid2" style="margin-top:12px"><div class="panel"><div class="pad"><h3>Stand Progress</h3><table class="kv"><tr><td>Stand 1</td><td>12 / 12</td></tr><tr><td>Stand 2</td><td>6 / 14</td></tr><tr><td>Stand 3</td><td>0 / 8</td></tr></table></div></div><div class="panel"><div class="pad"><h3>Production Requirements</h3><table class="kv"><tr><td>Observed Recon CV</td><td>68%</td></tr><tr><td>Target Error</td><td>±15%</td></tr><tr><td>Confidence Level</td><td>95%</td></tr><tr><td>Plots Required</td><td>34 total</td></tr><tr><td>Completed</td><td>12</td></tr><tr><td>Additional Needed</td><td>22</td></tr></table><button class="btn" onclick="alert('Mock: production plan generated.')">Generate Production Plan</button></div></div></div>
+ <div style="margin-top:12px"><button class="btn" onclick="go('valuation')">View Valuation</button></div>
+</section>
+
+<section id="valuation" class="view">
+ <div class="pagehead"><div><h1>Timber Valuation</h1><div class="sub">Regional price assumptions applied to cruise inventory</div></div><button class="btn" onclick="go('report')">Generate Report</button></div>
+ <div class="grid2"><div class="panel"><div class="pad"><div class="sub">Estimated Value</div><div style="font-size:34px;font-weight:900">$173,100</div><table class="table"><tr><td>Sawtimber</td><td>2,850 tons</td><td><b>$136,800</b></td></tr><tr><td>Pulpwood</td><td>1,650 tons</td><td><b>$36,300</b></td></tr></table></div></div><div class="panel"><div class="pad"><h3>Inventory Summary</h3><table class="kv"><tr><td>Total Volume</td><td>4,862 tons</td></tr><tr><td>Avg. Volume / Acre</td><td>67.5 tons</td></tr><tr><td>Basal Area</td><td>118 ft²/ac</td></tr></table></div></div></div>
+</section>
+
+<section id="report" class="view">
+ <div class="pagehead"><div><h1>Reports</h1><div class="sub">Generate a professional, client-ready cruise report</div></div></div>
+ <div class="grid2"><div class="panel"><div class="pad"><h2 style="margin-top:0">Pine Ridge Timber Cruise Report</h2><p class="sub">245 acres • Prince Edward County, VA • Sep 2026</p><table class="kv"><tr><td>✓ Property Overview</td><td>Included</td></tr><tr><td>✓ Stand Maps</td><td>Included</td></tr><tr><td>✓ Methodology</td><td>Included</td></tr><tr><td>✓ Results & Statistics</td><td>Included</td></tr><tr><td>✓ Timber Valuation</td><td>Included</td></tr></table></div></div><div class="panel"><div class="pad"><h3>Export Format</h3><div class="field"><select><option>PDF (Recommended)</option></select></div><label style="display:block;font-size:12px;margin:8px 0"><input type="checkbox" checked> Include Maps</label><label style="display:block;font-size:12px;margin:8px 0"><input type="checkbox" checked> Include Raw Data</label><label style="display:block;font-size:12px;margin:8px 0"><input type="checkbox" checked> Include Statistics</label><label style="display:block;font-size:12px;margin:8px 0"><input type="checkbox" checked> Include Stand Summaries</label><button class="btn" onclick="alert('Mock: PDF generated.')">Generate Report</button></div></div></div>
+</section>
+
+</div>
+</div>
+
+<script>
+const views=[...document.querySelectorAll('.view')];
+function enter(){document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';go('dashboard')}
+function go(id){views.forEach(v=>v.classList.toggle('active',v.id===id));document.querySelectorAll('.navbtn').forEach(b=>b.classList.toggle('active',b.dataset.go===id));location.hash=id;scrollTo(0,0)}
+document.querySelectorAll('.navbtn').forEach(b=>b.onclick=()=>go(b.dataset.go));
+function mode(m){document.getElementById('addrT').classList.toggle('active',m==='address');document.getElementById('parcelT').classList.toggle('active',m==='parcel');document.getElementById('searchLabel').textContent=m==='address'?'Property Address':'Parcel ID';document.getElementById('searchInput').value=m==='address'?'1234 Forest Road, Farmville, VA':'073-A-41'}
+function planMode(m){document.getElementById('autoPlanTab').classList.toggle('active',m==='auto');document.getElementById('manualPlanTab').classList.toggle('active',m==='manual');const b=document.getElementById('planBtn');b.textContent=m==='auto'?'Generate Cruise Plan':'Build Cruise Structure';b.onclick=()=>go(m==='auto'?'autoPlan':'stands')}
+const plots=Array.from({length:12},(_,i)=>({id:'P'+(i+1),status:i<12?'Planned':'Planned',method:'Variable Radius',baf:20,trees:i<4?5:0}));
+document.getElementById('plotRows').innerHTML=plots.map(p=>`<tr><td><b>${p.id}</b></td><td>${p.status}</td><td>${p.method}</td><td>${p.baf}</td><td>${p.trees}</td><td><button class="btn secondary sm" onclick="go('plotEntry')">Open</button></td></tr>`).join('');
+let trees=[{species:'Loblolly Pine',dbh:14.2,height:85,product:'Sawtimber'},{species:'Loblolly Pine',dbh:12.8,height:78,product:'Sawtimber'},{species:'Loblolly Pine',dbh:10.6,height:72,product:'Pulpwood'},{species:'Sweetgum',dbh:18.1,height:80,product:'Sawtimber'},{species:'Red Maple',dbh:9.4,height:65,product:'Pulpwood'}];
+function renderTrees(){document.getElementById('treeRows').innerHTML=trees.map((t,i)=>`<tr><td>${i+1}</td><td>${t.species}</td><td>${t.dbh}</td><td>${t.height}</td><td>${t.product}</td></tr>`).join('');document.getElementById('treeCount').textContent=trees.length}
+function addTree(){trees.push({species:species.value,dbh:dbh.value,height:height.value,product:product.value});renderTrees()}
+renderTrees();
+if(location.hash){document.getElementById('login').style.display='none';document.getElementById('app').style.display='block';go(location.hash.slice(1))}
+</script>
+</body></html>
