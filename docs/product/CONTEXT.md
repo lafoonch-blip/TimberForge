@@ -2,21 +2,27 @@
 
 ## 1. Project Summary
 
-**TimberForge** is a new, standalone business/product focused on professional timber cruising, timber intelligence, and timber valuation.
+**TimberForge** is a new, standalone business/product focused on professional timber cruising, timber intelligence, timber valuation, statistical QA, and reporting.
 
-The core strategy is:
+The core MVP workflow is:
 
-> **Assess → Cruise → Value → Score**
+> **Assess → Design → Cruise → QA → Value → Report**
 
-> **Long-term direction (added 2026-09-09).** The destination is broader than
+> **Long-term direction (updated 2026-09-10).** The destination is broader than
 > the above: an all-in-one operating platform for professional forestry, running
 > PROPERTY → ASSESS → PLAN → CRUISE → QA → INVENTORY → VALUE → REPORT → LEARN.
 > See [`VISION.md`](VISION.md). That sequence is the **product architecture, not
-> the MVP scope** — the MVP strategy in §10 of this document is unchanged, and
+> the MVP scope** — the MVP strategy in §13 of this document is unchanged, and
 > the guardrails there ("do not rebuild Forest Metrix feature-for-feature",
 > "challenge unnecessary scope") remain in force precisely because the vision is
-> now broader. Conflicts between the two are tracked in
+> broader. Conflicts between the two are tracked in
 > [`STRATEGY_RECONCILIATION.md`](STRATEGY_RECONCILIATION.md).
+>
+> TimberForge is an evidence and workflow product, not a property-decision
+> engine. It may describe inventory, timber value, access, sampling precision,
+> and measured conditions. It should not tell a user whether to buy, sell, hold,
+> develop, subdivide, conserve, or otherwise use the property, and it should not
+> prescribe whether or when a landowner should harvest timber.
 >
 > One architectural consequence is not deferrable: stands and properties must
 > **persist across cruises**, which the schema does not currently do. See
@@ -26,10 +32,10 @@ TimberForge should help timber cruisers and consulting foresters:
 1. Understand a property before visiting it.
 2. Plan and conduct a timber cruise in the field.
 3. Calculate inventory, volume, value, and confidence.
-4. Generate a professional timber cruise report.
-5. Produce a standardized **TimberForge Score** and supporting timber metrics.
+4. Validate whether the cruise meets its sampling target.
+5. Generate a professional timber cruise report.
 
-At a later stage, TimberForge will feed its score and timber metrics into **LandForge**, which is the broader land-intelligence platform.
+At a later stage, TimberForge may feed structured timber metrics into **LandForge**, which is the broader land-intelligence platform, under the data-rights and metrics-surface decisions already recorded.
 
 ---
 
@@ -40,9 +46,9 @@ The original LandForge strategy focused on remotely estimating timber value and 
 While developing LandForge, an opportunity became clear:
 
 - Timber cruising software exists, but much of it is focused on field data collection and cruise calculations.
-- There appears to be less focus on the full workflow from **pre-cruise property intelligence → cruise planning → field collection → reporting → scoring**.
+- There appears to be less focus on the full workflow from **pre-cruise property intelligence → cruise planning → field collection → QA → valuation → reporting**.
 - Professional timber cruises can provide the ground-truth data needed to improve remote timber estimation over time.
-- If professional cruisers use TimberForge as part of their normal workflow, TimberForge can build a proprietary dataset connecting remote parcel characteristics to actual forest inventory results.
+- If professional cruisers use TimberForge as part of their normal workflow, TimberForge can build a proprietary dataset connecting remote parcel characteristics to actual forest inventory results where customer permissions allow.
 
 The long-term data flywheel is:
 
@@ -58,24 +64,23 @@ Standalone product and business initially.
 Primary purpose:
 - Professional timber intelligence
 - Timber cruising workflow
+- Statistical cruise QA
 - Timber valuation
 - Timber reporting
-- TimberForge Score
 
 ### LandForge
 Separate broader land-intelligence platform.
 
-Later, LandForge should consume structured TimberForge outputs such as:
-- TimberForge Score
+Later, LandForge may consume structured TimberForge outputs such as:
 - Timber value
 - Timber value per acre
 - Timber volume per acre
 - Stand characteristics
-- Harvest readiness
+- Harvest-readiness signals as descriptive metrics rather than prescriptions
 - Logging/access metrics
 - Mill-market metrics
-- Confidence score
-- Other timber-related risk/value metrics
+- Cruise confidence / precision metrics
+- Other timber-related risk/value metrics permitted by the LandForge-facing metrics surface
 
 TimberForge should be designed so this integration is easy later, but LandForge integration is **not an MVP requirement**.
 
@@ -129,7 +134,7 @@ TimberForge should attempt to automatically provide:
 - Streams / likely SMZ considerations
 - Existing roads
 - Road frontage / access
-- Logging access considerations
+- Logging access observations
 - Nearby mills
 - Timber market / pricing context
 - Historical imagery
@@ -143,7 +148,15 @@ This is intended to be a major TimberForge differentiator.
 
 ### Stage 2 — Cruise Design
 
-TimberForge should help the forester design the cruise.
+TimberForge should help the forester design the cruise while keeping the professional in control of the methodology.
+
+Core concepts:
+
+- **Cruise purpose:** reconnaissance and production are different workflows. Reconnaissance characterizes stand variability and can inform a production sample design.
+- **Stand / unit:** geographic acreage being managed or cruised.
+- **Stratum:** a sampling group with similar conditions/product assumptions. It is not interchangeable with a geographic unit.
+- **Method:** selected per stratum where appropriate.
+- **Merchantability / volume basis:** explicit, versioned assumptions used in compilation.
 
 Potential capabilities:
 
@@ -158,18 +171,21 @@ Potential capabilities:
 - Generate plot locations
 - Allow manual plot editing
 - Create field navigation route
+- Configure regional species/product lists
+- Configure log rule and merchantability assumptions
 - Export/import GIS data where needed
 
 Potential supported cruise methodologies over time:
 
-- 100% cruise
+- 100% cruise / measure
+- Tally workflows
 - Sample tree
 - Fixed-area plot
 - Variable-radius / point sampling
 - 3P
 - Hybrid methods
 
-MVP should not attempt to support every possible forestry methodology unless user research proves it is necessary.
+MVP should not attempt to support every possible forestry methodology unless user research proves it is necessary. The implemented foundation currently supports variable-radius/point sampling and fixed-area plots.
 
 ---
 
@@ -191,6 +207,7 @@ Expected field inputs include:
 - Defect
 - Tree count
 - BAF / plot details
+- Plot slope / aspect / elevation / canopy cover where configured
 - Notes
 - Photos
 - Other configurable measurements
@@ -206,6 +223,9 @@ Key requirements:
 - Minimal typing
 - Configurable species/product lists
 - Real-time calculations where useful
+- Clear cruise/unit progress
+
+The setup workflow may contain significant forestry configuration, but the active field screen should remain simple and expose only the measurements/actions required for the current plot or tree.
 
 Potential future integrations:
 - Bluetooth forestry calipers
@@ -255,8 +275,16 @@ After or during the cruise, TimberForge should calculate appropriate metrics suc
 - Product mix
 - Gross and net volume
 - Defect deductions
+- Plot count
+- Mean
+- Standard deviation
+- Coefficient of variation
+- Standard error
 - Sampling error
 - Confidence interval
+- Required total plots for target precision
+- Additional plots needed
+- Stratified vs. simple sampling performance where applicable
 - Value by species
 - Value by product
 - Value by stand
@@ -267,7 +295,7 @@ Calculations must be transparent, defensible, and based on accepted forestry met
 
 ---
 
-## 6. TimberForge Report
+### Stage 6 — Report
 
 A major product output should be a professional client-ready report.
 
@@ -285,51 +313,124 @@ Potential sections:
 10. Timber volumes
 11. Product mix
 12. Timber valuation
-13. Harvest-readiness analysis
-14. Logging/access considerations
-15. Mill-market context
-16. Photos
-17. Assumptions
-18. Limitations
-19. TimberForge Score
-20. Recommended next actions
+13. Logging/access observations
+14. Mill-market context
+15. Photos
+16. Assumptions
+17. Limitations
+18. Data quality / cruise confidence
 
-The cruiser should be able to review/edit narrative content before generating the final report.
+The cruiser should be able to review/edit narrative content before generating the final report. Reports should communicate findings and assumptions, not prescribe a property-use or harvest decision.
 
 ---
 
-## 7. TimberForge Score
+## 6. Cruise Design & Statistical Confidence
 
-TimberForge should eventually produce a standardized score representing the quality/value/readiness of the timber asset.
+TimberForge should treat cruise design and statistical confidence as part of the professional workflow rather than as a hidden calculation after data collection.
 
-Working concept:
+### Reconnaissance → Production
 
-**TimberForge Score: 0–100**
+A reconnaissance cruise can estimate variability. TimberForge should use that variability, the user's target sampling error, and the selected confidence level to estimate the production sample requirement.
 
-Potential score dimensions:
+Expected outputs:
 
-- Timber Inventory
-- Timber Value
-- Stand Quality
-- Harvest Readiness
-- Logging Accessibility
-- Mill Market Access
-- Timber Risk
-- Data Confidence
+- Recon plot count
+- Mean and variability statistics
+- Coefficient of variation
+- Target sampling error
+- Confidence level
+- Required total plots
+- Additional plots needed
+- Plain-language sampling adequacy status
+- Ability to generate/update the production design from the recon results
 
-Example output:
+Sample-size logic must remain auditable and tied to the actual implemented statistical method. Do not copy constants or formulas from competitor screenshots without professional verification.
 
-- TimberForge Score: 82 / 100
-- Timber value: $186,400
-- Timber value/acre: $1,420
-- Sawtimber volume: 5,870 BF/ac
-- Pulpwood volume: 21.4 tons/ac
-- Harvest readiness: 85/100
-- Confidence: 92/100
+### Post-cruise confidence
 
-The exact scoring logic and weighting are **not yet finalized** and should be developed using forestry expertise, beta data, and user research.
+Post-cruise confidence is a sampling statistic, not a generalized property score. It remains distinct from LandForge's pre-cruise confidence model as recorded in [`../decisions/0003-pre-and-post-cruise-scoring.md`](../decisions/0003-pre-and-post-cruise-scoring.md).
 
-The score must never hide the underlying professional metrics. Users should always be able to see why a property received its score.
+---
+
+## 7. SilvaCruise Competitive Workflow Review — 2026-09-10
+
+SilvaCruise is a useful benchmark because it demonstrates a coherent professional sequence:
+
+**Cruise setup → field execution → statistical validation → reporting**
+
+The reviewed product should be treated as a workflow reference, not as an authoritative forestry source. Screenshot observations must not be copied into TimberForge calculations without independent validation.
+
+### Setup model observed
+
+SilvaCruise separates **Quick Cruise** from **Full Cruise**. Full Cruise distinguishes **Reconnaissance** from **Production** and then walks through a structured setup:
+
+1. Basic information
+2. Define strata
+3. Add units
+4. Region & species
+5. Cruise design by stratum
+6. Merchantability
+7. Review & start
+
+Notable design ideas:
+
+- Strata can use independent cruise methods.
+- Geographic units can be assigned to one or more strata.
+- Variable-radius strata expose BAF; fixed/other methods are configured separately.
+- Region presets narrow species choices.
+- Merchantability assumptions are explicit before collection, including log rule, form class, minimum DBH, stump height, log length, and method-specific top/height logic.
+- Map/GPS functionality can be optional for a tabular cruise workflow.
+- Reconnaissance statistics can feed a production-cruise sample design.
+
+### Field workflow observed
+
+The active field workflow is materially simpler than the setup workflow. Plot-level observations include items such as slope, aspect, elevation, canopy cover, notes, trees, and photos. Tree entry emphasizes rapid species/DBH/height collection. Progress is visible at cruise and unit level.
+
+Useful interaction ideas include:
+
+- Add tree
+- Flag borderline tree
+- Mark empty plot
+- Take photo
+- Previous/next plot
+- Complete plot
+- Large, compact field controls rather than repeating setup configuration
+
+### Analytics observed
+
+SilvaCruise exposes both forestry inventory outputs and the statistics behind the estimate, including:
+
+- BA/ac
+- TPA
+- QMD
+- Gross/net BF/ac
+- Total MBF
+- Diameter distribution
+- Volume by diameter class and species
+- Plot count
+- Mean
+- Standard deviation
+- CV
+- Standard error
+- Sampling error
+- Confidence interval
+- Plot-volume distribution
+- Required sample size / additional plots
+- Stratification analysis
+
+This statistical transparency is the most important pattern for TimberForge to match or improve.
+
+### Caution from the review
+
+Several screenshots contain values or labels whose reporting basis is not obvious from the UI alone. Examples include differing CV values between views and totals that do not trivially reconcile with displayed per-acre means. These are **clarity/data-basis questions**, not proven competitor calculation errors. TimberForge should make population, stratum, acreage, unit basis, gross/net basis, and confidence assumptions explicit wherever ambiguity would change interpretation.
+
+### TimberForge implication
+
+Do not copy SilvaCruise screen-for-screen. Borrow the professional cruise structure and statistical transparency while differentiating upstream and downstream:
+
+**Pre-cruise intelligence → assisted cruise design → simple offline field collection → real-time QA → auditable inventory/value/confidence → professional report**
+
+The strongest TimberForge opportunity is to arrive at cruise setup with more of the property already understood, while keeping the forester in control of the final stand, method, merchantability, and sampling decisions.
 
 ---
 
@@ -355,21 +456,26 @@ TimberForge opportunity:
 - Stronger pre-cruise parcel intelligence
 - Automated property analysis
 - Predicted vs. actual comparison
-- Timber scoring
+- Statistical transparency
 - Modern workflow / UX
 
 ### SilvaCruise
-Newer low-cost / mobile-first competitor.
+Newer low-cost / mobile-first competitor and current workflow benchmark.
 
-Strengths:
+Strengths observed in the 2026-09-10 review:
+- Quick vs. Full Cruise progressive complexity
+- Reconnaissance vs. Production purpose
+- Strata and geographic units
+- Regional species presets
+- Explicit merchantability setup
 - Cruise field collection
-- Plot-grid generation
-- Sampling calculations
+- Sampling calculations and sample-size planning
 - Offline maps/navigation
-- Low-cost / free core features
+- Statistical transparency
+- Low-cost / free core positioning
 
 Strategic implication:
-Basic field-cruise functionality is becoming commoditized.
+Basic field-cruise functionality is becoming commoditized. TimberForge must be excellent at it, but the differentiator is the broader property-intelligence-to-report workflow.
 
 ### USDA FScruiser / National Cruise System
 Important technical benchmark rather than primary commercial competitor.
@@ -411,7 +517,9 @@ Existing software generally starts at:
 
 TimberForge should aim for:
 
-**Property → Assess → Design → Cruise → QA → Value → Report → Score**
+**Property → Assess → Design → Cruise → QA → Value → Report**
+
+The distinction is not that TimberForge makes the land decision for the user. It is that the professional begins the cruise with better property context and finishes with a more auditable work product.
 
 ---
 
@@ -421,12 +529,12 @@ Highest-priority differentiators:
 
 1. **Pre-Cruise Intelligence**
 2. **Automatic / assisted stand delineation**
-3. **Cruise design recommendations**
+3. **Cruise design recommendations for the professional to accept/override**
 4. **Remote preliminary timber estimate**
 5. **Real-time field QA**
 6. **Predicted vs. actual comparison**
 7. **Automatic professional report generation**
-8. **TimberForge Score**
+8. **Transparent statistical confidence**
 9. **Longitudinal property intelligence**
 10. **Ground-truth data flywheel**
 
@@ -463,11 +571,12 @@ The system should be designed approximately around:
 → **Measurement**
 → **Volume**
 → **Value**
-→ **Metrics**
-→ **TimberForge Score**
+→ **Metrics / Cruise Confidence**
 → **Report**
 
 Remote/pre-cruise observations should be stored separately from field-measured ground truth so TimberForge can compare predictions against actual cruise results.
+
+A **stand/unit** and a **stratum** must remain conceptually distinct. The former is geographic/persistent forest acreage; the latter is a sampling grouping within a cruise design. A cruise may use strata to sample one or more stands/units, including nested designs where supported.
 
 > **Persistence and history (added 2026-09-09).** Properties and stands are
 > **durable**; a cruise is an event that measures them. A stand carries an
@@ -549,7 +658,7 @@ Data rights, customer confidentiality, anonymization, and acceptable aggregation
 
 ## 13. MVP Strategy
 
-Do **not** try to rebuild Forest Metrix feature-for-feature.
+Do **not** try to rebuild Forest Metrix or SilvaCruise feature-for-feature.
 
 Recommended MVP focus:
 
@@ -576,7 +685,9 @@ Recommended MVP focus:
 - Suggested stand boundaries
 - Preliminary timber estimate
 - Cruise-planning assistance
+- Reconnaissance-to-production sample planning
 - Predicted vs. actual analysis
+- Clear data confidence
 
 ### Later
 - Full methodology library
@@ -638,6 +749,10 @@ Key questions:
 - What do you like/hate about it?
 - What happens before you visit the property?
 - How do you design a cruise?
+- Do you use a separate reconnaissance cruise before production sampling?
+- How do you distinguish geographic units/stands from sampling strata?
+- Which merchantability assumptions must be configurable?
+- What sampling-error/confidence targets do clients expect?
 - What GIS tools do you use?
 - What equipment do you carry?
 - What data do you enter in the field?
@@ -669,6 +784,8 @@ Do not assume all Forest Service requirements automatically apply to private con
 - Federal Forest Service-specific policy/process
 - Regional/private-market conventions
 
+Competitor screenshots, including SilvaCruise, are UX/workflow evidence rather than a formula authority.
+
 ---
 
 ## 17. Product / Technical Principles
@@ -682,7 +799,8 @@ Do not assume all Forest Service requirements automatically apply to private con
 7. **Cruisers remain the professional decision-maker**
 8. **AI should reduce administrative work, not invent forestry measurements**
 9. **Do not sacrifice forestry credibility for simplified UX**
-10. **Design all data so it can later feed LandForge through an API**
+10. **Design permitted derived data so it can later feed LandForge through a controlled interface**
+11. **Do not turn objective timber intelligence into property-use or harvest prescriptions**
 
 ---
 
@@ -692,13 +810,13 @@ Useful AI applications:
 
 - Pre-cruise property summary
 - Stand-boundary suggestions
-- Cruise-design recommendations
+- Cruise-design recommendations for professional review
 - Measurement anomaly detection
 - Missing-data detection
 - Predicted vs. actual analysis
 - Report narrative drafting
 - Stand descriptions
-- Harvest considerations
+- Logging/access observations
 - Client-facing summaries
 - Natural-language querying of completed cruises
 
@@ -711,7 +829,7 @@ AI should not silently fabricate:
 - Sampling results
 - Timber prices
 
-All AI-generated analysis should be traceable to source data.
+AI also should not use TimberForge data to issue property investment, development, land-use, or prescriptive harvest recommendations. All AI-generated analysis should be traceable to source data and reviewable by the professional user.
 
 ---
 
@@ -724,8 +842,7 @@ Still to be determined:
 - Initial species/product library
 - Timber price data source(s)
 - Remote imagery / LiDAR data stack
-- Exact TimberForge Score formula
-- Score weights
+- Data-confidence presentation
 - Pricing model
 - Free vs. paid tiers
 - Hardware integrations
@@ -744,18 +861,17 @@ In priority order:
 
 1. Validate the problem with professional cruisers.
 2. Map the exact current cruiser workflow.
-3. Benchmark Forest Metrix and top competitors feature-by-feature.
+3. Benchmark Forest Metrix, SilvaCruise, and top competitors feature-by-feature.
 4. Define the TimberForge MVP.
 5. Define the forestry calculation engine.
 6. Define the TimberForge data model.
 7. Prototype pre-cruise intelligence.
-8. Prototype field workflow.
-9. Define report output.
-10. Define initial TimberForge Score concept.
-11. Run field beta.
-12. Improve prediction models using ground-truth cruise data.
-13. Expand features and geography.
-14. Integrate TimberForge outputs into LandForge later.
+8. Prototype cruise-design and field workflow.
+9. Define report output and statistical-confidence presentation.
+10. Run field beta.
+11. Improve prediction models using ground-truth cruise data.
+12. Expand features and geography.
+13. Integrate permitted TimberForge outputs into LandForge later.
 
 ---
 
@@ -767,17 +883,19 @@ When helping build TimberForge:
 - Avoid long narrative unless explicitly requested.
 - Separate **MVP**, **later**, and **not needed**.
 - Do not assume a feature is valuable simply because competitors have it.
-- Protect the core differentiation: pre-cruise intelligence + professional cruise + score.
+- Protect the core differentiation: pre-cruise intelligence + professional cruise + auditable confidence/reporting.
 - Challenge unnecessary scope.
 - Ground forestry logic in accepted professional sources.
+- Treat competitor screenshots as workflow evidence, not formula authority.
 - Flag where regional rules, species, log rules, or timber markets create variability.
 - Prefer configurable logic over hard-coded assumptions where practical.
 - Keep TimberForge separate from LandForge unless the task specifically concerns integration.
-- Treat the TimberForge Score as an output supported by transparent underlying metrics, not a replacement for them.
+- Treat statistical confidence as a transparent description of cruise precision, not a recommendation about the property.
+- Do not recommend what a user should do with a property or whether/when to harvest.
 - Optimize for adoption by working professional foresters and cruisers first.
 
 ---
 
 ## 22. One-Sentence Product Vision
 
-> **TimberForge is a professional timber intelligence platform that helps foresters understand a property before they arrive, design and conduct the cruise, calculate and value the timber, generate the client report, and produce a trusted TimberForge Score.**
+> **TimberForge is a professional timber intelligence platform that helps foresters understand a property before they arrive, design and conduct the cruise, validate the data, calculate and value the timber, and generate a defensible client report.**
